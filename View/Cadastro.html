@@ -9,15 +9,27 @@
     <title>Cadastrar</title>
 </head>
  <style>
-color1 {color: #121d14;} .color2 {color: #42514a;} .color3 {color: #5a5452;} .color4 {color: #949590;} .color5 {color: #dfded4;}
+.color1 {color: #140e29;}
+.color2 {color: #5f325d;}
+.color3 {color: #2082d8;}
+.color4 {color: #20d3d8;}
+.color5 {color: #c7efed;}
+ .bg-imagem {
+      background-image: url('/View/img/biblioteca.png'); /* coloque o caminho da sua imagem */
+      background-size: cover;  /* faz a imagem cobrir todo o espaço */
+      background-position: center;/* centraliza a imagem */
+      height: 100vh;
+      width: 100%;   /* ocupa a altura inteira da tela */
+      
+    }
 </style>
-<body style="background-color:#121d14">
+<body class="bg-imagem">
    <div class="container d-flex justify-content-center align-items-center vh-100" >
         <div class="row "> 
             <!---nome completo, idade, enail, senha -->           
             <div class="col">
-                <div class="text-center text-light rounded-3 " style="background-color: #949590;">
-                    <h2 class="mb-3 p-2" style="font-family:Arial, Helvetica, sans-serif; font-size: 40px;">Cadastrar <i class="bi bi-book-half"></i></h2>
+                <div class="text-center text-light rounded-3 " style="background-color:#2082d8b2">
+                    <h2 class="mb-3 p-2" style="font-family:Arial, Helvetica, sans-serif; font-size: 40px;">Cadastrar <i class="bi bi-person-plus"></i></h2>
                     <form action="" method="post">
                         <div class="mb-3 mx-5">
                             <label class="form-label" for="name">Nome</label>
@@ -39,7 +51,7 @@ color1 {color: #121d14;} .color2 {color: #42514a;} .color3 {color: #5a5452;} .co
                             <label class="form-label" for="senha">Senha</label>
                             <input type="password" class="form-control" id="passwordUser" name="password">
                         </div>                                   
-                        <button type="submit" class="btn mb-3" style=" background-color: #42514a;" >Criar conta</button><br>                   
+                        <button type="submit" class="btn mb-3" style=" background-color:#20d3d8" >Criar conta</button><br>                   
                     </form>
                 </div>
             </div>            
