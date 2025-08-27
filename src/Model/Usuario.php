@@ -1,15 +1,23 @@
 <?php 
 
 class Usuario{
+
+    private $id;
     private $nome;
     private $sobrenome;
     private $email;
     private $dataNascimento;
     private $senha;
+    private $idLivro;
 
-    public function __construct()
-    {
-        
+    public function __construct(){}
+  
+    
+    public function setId($id){
+        $this->id = $id;
+    }
+    public function getId(){
+        return $this->id;
     }
 
     public function setNome($nome){
@@ -45,6 +53,13 @@ class Usuario{
     }
     public function getSenha(){
         return $this->senha;
+    }
+
+    public function setIdLivro($idLivro){
+        $this->idLivro = $idLivro;
+    }
+    public function getIdLivro(){
+        return $this->idLivro;
     }
 }
 
