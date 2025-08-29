@@ -15,7 +15,7 @@
 .color4 {color: #20d3d8;}
 .color5 {color: #c7efed;}
  .bg-imagem {
-      background-image: url('/src/View/img/biblioteca.png'); /* coloque o caminho da sua imagem */
+      background-image: url('./img/biblioteca.png'); /* coloque o caminho da sua imagem */
       background-size: cover;  /* faz a imagem cobrir todo o espaço */
       background-position: center;/* centraliza a imagem */
       height: 100vh;

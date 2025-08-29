@@ -15,7 +15,7 @@
 .color4 {color: #20d3d8;}
 .color5 {color: #c7efed;}
  .bg-imagem {
-      background-image: url('/src/View/img/biblioteca.png'); /* coloque o caminho da sua imagem */
+      background-image: url('./img/biblioteca.png'); /* coloque o caminho da sua imagem */
       background-size: cover;  /* faz a imagem cobrir todo o espaço */
       background-position: center;/* centraliza a imagem */
       height: 100vh;
@@ -31,7 +31,7 @@
                 <div class="text-center text-light rounded-3 " style="background-color:#6b757eb2">
                     <h2 class="mb-3 p-2" style="font-family:Arial, Helvetica, sans-serif; font-size: 40px;">Login <i class="bi bi-book-half"></i></h2>
                     
-                    <form action="" method="post">
+                    <form action="../Controller/UsuarioController.php" method="get">
                         <div class="mb-3 mx-5">
                             <label class="form-label" for="email">Email</label>
                             <input type="email" name="email" id="emailUser" class="form-control" >
@@ -40,9 +40,9 @@
                             <label class="form-label" for="senha">Senha</label>
                             <input type="password" class="form-control" id="passwordUser" name="password">
                         </div>                       
-                        <button type="submit" class="btn mb-3" style=" background-color:#20d3d8" >Entrar</button><br>
-                        <a href="./Cadastro.html" class="color4">Criar conta</a><br>
-                        <a href="./EsqueciSenha.html" class="color4">Esqueci a senha</a><br><br>
+                        <button type="submit" class="btn mb-3" name="logar" style=" background-color:#20d3d8" >Entrar</button><br>
+                        <a href="./Cadastro.php" class="color4">Criar conta</a><br>
+                        <a href="./EsqueciSenha.php" class="color4">Esqueci a senha</a><br><br>
                     </form>
                 </div>
             </div>            

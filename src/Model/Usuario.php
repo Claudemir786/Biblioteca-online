@@ -37,7 +37,7 @@ class Usuario{
     public function setEmail($email){
         $this->email = $email;
     }
-    public function geEmail(){
+    public function getEmail(){
         return $this->email;
     }
 
@@ -61,6 +61,17 @@ class Usuario{
     public function getIdLivro(){
         return $this->idLivro;
     }
+
+    public function __toString() {
+    return "ID: {$this->id}, " .
+           "Nome: {$this->nome}, " .
+           "Sobrenome: {$this->sobrenome}, " .
+           "Email: {$this->email}, " .
+           "Data de Nascimento: {$this->dataNascimento}, " .
+           "Senha: {$this->senha}, " .
+           "ID do Livro: {$this->idLivro}";
+}
+
 }
 
 
