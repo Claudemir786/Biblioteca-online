@@ -45,9 +45,9 @@
 
         $usuario ->setEmail($_GET['email']);
         $usuario ->setSenha($_GET['password']);
-        $usuarioEncontrado = $usuarioDao->logar($usuario);
-
-        if($usuarioEncontrado != 1){
+        $usuarioEncontrado = $usuarioDao->logar($usuario);       
+       
+        if($usuarioEncontrado != 0 ){
 
             echo" <script>alert('Olá $usuarioEncontrado'); 
             window.location.href = '../View/TelaInicial.php';</script>";

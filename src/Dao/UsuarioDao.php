@@ -30,12 +30,23 @@
     public function logar(Usuario $usuario){
 
         try{
+            $sql = "SELECT * FROM usuario WHERE email = :email";
+            $conn = ConnectionFactory::getConnection()->prepare($sql);
+            $conn ->bindValue(":email" , $usuario->getEmail());           
+            $conn->execute();
+            $result = $conn->fetch(PDO::FETCH_ASSOC);     
 
-            $nome= "Claudemir";
-            return $nome;
+            if($result){                
+                    if(password_verify($usuario->getSenha(), $result['senha'])){                          
+                    
+                        return $result['nome'];
+                    }
+            }         
+            return 0;
+    
 
         }catch(PDOException $e){
-            echo"<h1>Erro: $e </hi>";
+            echo"<h1>Erro: $e </h1>";
             return 1;
         }
 

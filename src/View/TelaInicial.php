@@ -26,7 +26,7 @@
         </form>   
         </div> 
         <div >
-            <a href="./Perfil.html" class="btn ms-5" style="background-color:#2082d8;">Perfil<i class="bi bi-person"></i></a>
+            <a href="./Perfil.php" class="btn ms-5" style="background-color:#2082d8;">Perfil<i class="bi bi-person"></i></a>
         </div>
         <div class="me-5">
             <a href="./Index.html" class="btn ms-5" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i>
