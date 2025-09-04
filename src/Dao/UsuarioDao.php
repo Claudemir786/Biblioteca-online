@@ -30,12 +30,14 @@
     public function logar(Usuario $usuario){
 
         try{
+            //busca somente pelo email no banco de dados, lembrando que o email no banco está como UNICO
             $sql = "SELECT * FROM usuario WHERE email = :email";
             $conn = ConnectionFactory::getConnection()->prepare($sql);
             $conn ->bindValue(":email" , $usuario->getEmail());           
             $conn->execute();
-            $result = $conn->fetch(PDO::FETCH_ASSOC);     
+            $result = $conn->fetch(PDO::FETCH_ASSOC); //busca o usuario com este email cadastrado   
 
+            //se encontrar decodifica a senha e retorna o nome do usuario
             if($result){                
                     if(password_verify($usuario->getSenha(), $result['senha'])){                          
                     

@@ -49,7 +49,7 @@
                         </div>       
                        <div class="mb-3 mx-5">
                             <label class="form-label" for="senha">Senha</label>
-                            <input type="password" class="form-control" id="passwordUser" name="password" required>
+                            <input type="password" class="form-control" id="passwordUser" name="password" minlength="6" maxlength="15" required>
                         </div>                                   
                         <button type="submit" class="btn mb-3" name="criar" style=" background-color:#20d3d8" >Criar conta</button><br>                   
                     </form>

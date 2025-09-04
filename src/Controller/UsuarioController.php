@@ -6,12 +6,36 @@
  
   
 
+function menssagemErroLogin(){
+     //volta para página de login levando uma variavel
+    $UsuarioNEncontrado=1;
+    header("location:../View/Login.php?usern=$UsuarioNEncontrado");
+}
+
+function menssagemErroCadastro(){
+   echo" <script>alert('Erro ao criar conta');</script>";
+            
+}
+
+
  if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+    //CADASTRO DE USUÁRIO
     if(isset($_POST['criar'])){
 
         $usuario = new Usuario();
         $usuarioDao = new UsuarioDao();
+
+        //verificando a senha 
+          $senhaCadastro = $_POST['password'];
+        
+        if(strlen($senhaCadastro)<6){
+            menssagemErroCadastro();
+
+        }elseif(strlen($senhaCadastro)>15){
+            menssagemErroCadastro();
+            
+        }else{
 
         $usuario ->setNome($_POST['nameUser']);
         $usuario ->setSobrenome($_POST['lastName']);
@@ -26,38 +50,48 @@
             window.location.href = '../View/Login.php';</script>";
 
         }else{
-            echo" <script>alert('Erro ao criar conta'); 
-            </script>";
-        }
-    
-      
+           menssagemErroCadastro();
+        }    
+    }
     }
 
-   
- }
+     //LOGIN DE USUÁRIO 
+     if(isset($_POST['logar'])){
+        
 
- if($_SERVER["REQUEST_METHOD"] == "GET"){
-    
-    if(isset($_GET['logar'])){
+        $usuariol = new Usuario;
+        $usuarioDaol = new UsuarioDao();
+        //verificando a senha
+        $senha = $_POST['password'];
+        
+        if(strlen($senha)<6){
+            menssagemErroLogin();
 
-        $usuario = new Usuario;
-        $usuarioDao = new UsuarioDao();
+        }elseif(strlen($senha)>15){
+            menssagemErroLogin();
 
-        $usuario ->setEmail($_GET['email']);
-        $usuario ->setSenha($_GET['password']);
-        $usuarioEncontrado = $usuarioDao->logar($usuario);       
+        }else{
+
+        $usuariol ->setEmail($_POST['email']);
+        $usuariol ->setSenha($_POST['password']);        
+        $usuarioEncontrado = $usuarioDaol->logar($usuariol);       
        
         if($usuarioEncontrado != 0 ){
-
+            //exibe um alerta com o nome do usuario e logo depois é direcionado a pagina principal do projeto
             echo" <script>alert('Olá $usuarioEncontrado'); 
             window.location.href = '../View/TelaInicial.php';</script>";
 
         }else{
-            echo" <script>alert('Erro ao criar conta'); 
-            </script>";
+           menssagemErroLogin();
         }
-
-
     }
- }
+}
+
+
+}
+    
+    
+ 
+
+
 ?>
