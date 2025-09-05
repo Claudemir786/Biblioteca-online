@@ -1,3 +1,11 @@
+<?php 
+
+  session_start();
+  if(isset($_SESSION['cod'])){
+        $usuarioId = $_SESSION['cod'];
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,8 +21,8 @@
             <a href="./TelaInicial.html"  class="text-decoration-none"> <h1 style="font-family:Arial, Helvetica, sans-serif; color:#06355e;" class="me-5"><i class="bi bi-book-half"></i> Raízes do saber</h1>  </a>        
 
         <div class="me-5">
-            <a href="./InfoConta.html" class="btn ms-5" style="background-color:#2082d8;">Informações da conta<i class="bi bi-lock"></i></a>
-            <a href="./Index.html" class="btn ms-5" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i></a>
+            <a href="./InfoConta.php" class="btn ms-5" style="background-color:#2082d8;">Informações da conta<i class="bi bi-lock"></i></a>
+            <a href="./Index.php?id=$_SESSION['cod']" value="sair" name="sair" class="btn ms-5" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i></a>
              
             </div>
 </nav>
@@ -22,6 +30,7 @@
        <div class="row">
         <div class="text-center p-5">
              <Header><h1 style="color: #06355e;">Lista de livros emprestados</h1></Header>
+              
         </div>
        <table>
         

@@ -41,7 +41,7 @@
             if($result){                
                     if(password_verify($usuario->getSenha(), $result['senha'])){                          
                     
-                        return $result['nome'];
+                        return $result;
                     }
             }         
             return 0;
@@ -52,6 +52,40 @@
             return 1;
         }
 
+    }
+
+    public function buscaId($id){
+         
+        try{
+            $sql = "SELECT * FROM usuario WHERE id = :id";
+            $conn = ConnectionFactory::getConnection()->prepare($sql);
+            $conn -> bindValue(":id", $id);
+            $conn->execute();
+            $usuarioEncontrado = $conn->fetch(PDO::FETCH_ASSOC);
+
+            $valor = array();
+
+            foreach($usuarioEncontrado as $chave => $value){
+
+                $valor[] = $value;
+            }
+
+            $usuarioRetorno = new Usuario();
+
+            $usuarioRetorno->setId($valor[0]);
+            $usuarioRetorno->setNome($valor[1]);
+            $usuarioRetorno->setSobrenome($valor[2]);
+            $usuarioRetorno->setEmail($valor[3]);
+            
+            return $usuarioRetorno;
+             
+            
+
+         }catch(PDOException $e){
+
+            echo"<h1>Erro: $e </h1> ";
+            return 1;
+         }
     }
  }
 ?>

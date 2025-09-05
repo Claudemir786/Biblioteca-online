@@ -1,3 +1,15 @@
+<?php 
+
+
+if(isset($_GET['id'])){
+
+   echo" <script>alert('Saindo.....');</script>";
+  session_start();
+  session_unset();
+  session_destroy();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 

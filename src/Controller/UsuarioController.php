@@ -78,8 +78,8 @@ function menssagemErroCadastro(){
        
         if($usuarioEncontrado != 0 ){
             //exibe um alerta com o nome do usuario e logo depois é direcionado a pagina principal do projeto
-            echo" <script>alert('Olá $usuarioEncontrado'); 
-            window.location.href = '../View/TelaInicial.php';</script>";
+            echo" <script>alert('Olá {$usuarioEncontrado['nome']}'); 
+            window.location.href = '../View/TelaInicial.php?id={$usuarioEncontrado['id']}';</script>";
 
         }else{
            menssagemErroLogin();
@@ -89,6 +89,8 @@ function menssagemErroCadastro(){
 
 
 }
+
+
     
     
  

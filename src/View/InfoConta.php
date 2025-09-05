@@ -1,3 +1,16 @@
+<?php
+    require '../Controller/UsuarioController.php';
+    session_start();
+
+    if(isset($_SESSION['cod'])){
+        $usuarioId = $_SESSION['cod'];
+
+        $usuarioDaoInfo = new UsuarioDao();
+
+        $usuarioInfo = $usuarioDaoInfo->buscaId($usuarioId);
+
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,22 +23,26 @@
 <body>
      <nav class="navbar navbar-expand-lg border shadow-lg" style="background-color:#fff;">
         <div class="container-fluid d-flex flex-wrap">        
-            <a href="./TelaInicial.html"  class="text-decoration-none"> <h1 style="font-family:Arial, Helvetica, sans-serif; color:#06355e;" class="me-5"><i class="bi bi-book-half"></i> Raízes do saber</h1>  </a>        
+            <a href="./TelaInicial.php"  class="text-decoration-none"> <h1 style="font-family:Arial, Helvetica, sans-serif; color:#06355e;" class="me-5"><i class="bi bi-book-half"></i> Raízes do saber</h1>  </a>        
 
         <div class="me-5">           
-            <a href="./Index.html" class="btn ms-5" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i></a>             
+            <a href="./Index.php?id=$_SESSION['cod']" value="sair" name="sair" class="btn ms-5" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i></a>             
         </div>
 </nav>
     <div class="container">
         <div class="row mt-5 pt-4">
              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Nome: <p class="fw-bold"></p></li>
-                <li class="list-group-item">Email Cadastrado: <p class="fw-bold"></p></li>
+                <li class="list-group-item">Nome: <p class="fw-bold"> 
+                    <?= isset($usuarioInfo) && $usuarioInfo->getNome() ? $usuarioInfo->getNome() : 'Usuario não encontrado' ?> 
+                    <?= isset($usuarioInfo) && $usuarioInfo->getSobrenome() ? $usuarioInfo->getSobrenome() : '' ?> </p></li>   
+                <li class="list-group-item">Email Cadastrado: <p class="fw-bold">
+                    <?= isset($usuarioInfo) && $usuarioInfo->getEmail() ? $usuarioInfo->getEmail() : 'Email não encontrado' ?></p></li>
                 <li class="list-group-item">Senha: ******** <button class="btn btn-light">Alterar</button></li>
                 <li class="list-group-item">Livros emprestados no momento: <p class="fw-bold">5</p></li>
 
-
             </ul>
+           
+          
         </div>
        
     </div>

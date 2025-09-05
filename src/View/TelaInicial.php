@@ -1,3 +1,12 @@
+<?php 
+    if(isset($_GET['id'])){
+        session_start();
+        $idUsuario = $_GET['id'];
+        $_SESSION['cod'] = $idUsuario;
+
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -29,7 +38,7 @@
             <a href="./Perfil.php" class="btn ms-5" style="background-color:#2082d8;">Perfil<i class="bi bi-person"></i></a>
         </div>
         <div class="me-5">
-            <a href="./Index.html" class="btn ms-5" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i>
+            <a href="./Index.php?id=$_SESSION['cod']" class="btn ms-5"  value = "sair" name="sair" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i>
 </a>
         </div>
     
@@ -39,6 +48,7 @@
        <div class="row align-items-center justify-content-center d-flex">
            <header class="p-5">
                 <h1 class="text-center" style="font-family:Arial, Helvetica, sans-serif; color:#06355e;">Lista de livros Diponiveis</h1>
+               
            </header> 
            <div>
            <table>
