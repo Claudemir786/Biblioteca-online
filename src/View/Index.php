@@ -3,10 +3,11 @@
 
 if(isset($_GET['id'])){
 
+  //se a pagona for carregado passando o id da sessão a sesão é encerrada
    echo" <script>alert('Saindo.....');</script>";
   session_start();
   session_unset();
-  session_destroy();
+  session_destroy(); //sessão encerrada
 }
 ?>
 

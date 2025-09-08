@@ -1,4 +1,5 @@
 <?php 
+    require '../Controller/LivroController.php';
 
   session_start();
   if(isset($_SESSION['cod'])){
@@ -32,8 +33,22 @@
              <Header><h1 style="color: #06355e;">Lista de livros emprestados</h1></Header>
               
         </div>
-       <table>
-        
+       <table class="table table-hover">
+         <thead >
+                <tr>
+                   <th scope="col">Titulo</th> 
+                   <th scope="col">Autor</th>
+                   <th scope="col">Gênero</th>  
+                   <th scope="col">Páginas</th>                  
+                   <th scope="col">Editora</th>                               
+                   <th scope="col">Opção</th>                               
+                </tr>
+            </thead>
+            <tbody>
+                <?php  
+                    livrosUsuario($usuarioId);
+                ?>
+            </tbody>
        </table>
        
        </div>

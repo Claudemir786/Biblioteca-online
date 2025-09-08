@@ -8,7 +8,7 @@ class Livro{
     private $pagina;
     private $genero;
     private $editora;
-    private $statusEmprestimo;
+    private $quantidade;
     private $isbn;
     private $anoPublicação;
     private $idUsuario;
@@ -58,12 +58,12 @@ class Livro{
         return $this->editora;
     }
 
-    public function setStatusEmprestimo($statusEmprestimo){
-        $this->statusEmprestimo = $statusEmprestimo;
-    }
-    public function getStatusEmprestimo(){
-        return $this->statusEmprestimo;
-    }
+   public function setQuantidade($quantidade){
+        $this->quantidade = $quantidade;
+   }
+   public function getQuantidade(){
+        return $this-> quantidade;
+   }
 
     public function setIsbn($isbn){
         $this->isbn = $isbn;

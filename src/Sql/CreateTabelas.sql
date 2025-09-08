@@ -13,10 +13,13 @@ CREATE TABLE LIVRO(
     autor VARCHAR(150) NOT NULL,
     pagina INT NOT NULL,
     genero VARCHAR(100),
-    editora VARCHAR(150),
-    status_emprestimo BOOLEAN DEFAULT FALSE,
+    editora VARCHAR(150),   
     isbn VARCHAR(20) UNIQUE,
+    quantidade INT NOT NULL,
     ano_publicacao INT,
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
+
+
+

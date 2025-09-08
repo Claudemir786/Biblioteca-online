@@ -2,7 +2,9 @@
     require '../Controller/UsuarioController.php';
     session_start();
 
+     //se a pagina vieer carregando o id de sessão 
     if(isset($_SESSION['cod'])){
+       //usuado o id para buscar informações, lembrando que esse 'COD' da sessão é o id do usuario 
         $usuarioId = $_SESSION['cod'];
 
         $usuarioDaoInfo = new UsuarioDao();
@@ -33,12 +35,12 @@
         <div class="row mt-5 pt-4">
              <ul class="list-group list-group-flush">
                 <li class="list-group-item">Nome: <p class="fw-bold"> 
-                    <?= isset($usuarioInfo) && $usuarioInfo->getNome() ? $usuarioInfo->getNome() : 'Usuario não encontrado' ?> 
+                    <?= isset($usuarioInfo) && $usuarioInfo->getNome() ? $usuarioInfo->getNome() : 'Usuario não encontrado' ?> <!--if ternario para preencher os campos de acordo com a busca pelo id-->
                     <?= isset($usuarioInfo) && $usuarioInfo->getSobrenome() ? $usuarioInfo->getSobrenome() : '' ?> </p></li>   
                 <li class="list-group-item">Email Cadastrado: <p class="fw-bold">
-                    <?= isset($usuarioInfo) && $usuarioInfo->getEmail() ? $usuarioInfo->getEmail() : 'Email não encontrado' ?></p></li>
-                <li class="list-group-item">Senha: ******** <button class="btn btn-light">Alterar</button></li>
-                <li class="list-group-item">Livros emprestados no momento: <p class="fw-bold">5</p></li>
+                    <?= isset($usuarioInfo) && $usuarioInfo->getEmail() ? $usuarioInfo->getEmail() : 'Email não encontrado' ?></p></li>   
+                <!--futuramente adicionar o campo de alterar senha e alterar email-->                
+                <li class="list-group-item">Livros emprestados no momento: <p class="fw-bold">**</p></li>
 
             </ul>
            

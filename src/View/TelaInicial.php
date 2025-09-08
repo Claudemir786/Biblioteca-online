@@ -1,4 +1,7 @@
 <?php 
+
+    require '../Controller/LivroController.php';    
+
     if(isset($_GET['id'])){
         session_start();
         $idUsuario = $_GET['id'];
@@ -51,8 +54,23 @@
                
            </header> 
            <div>
-           <table>
-            
+           <table class="table table-hover">
+            <thead>
+                <tr>
+                   <th scope="col">Titulo</th> 
+                   <th scope="col">Autor</th>
+                   <th scope="col">Gênero</th>  
+                   <th scope="col">Páginas</th>                  
+                   <th scope="col">Editora</th> 
+                   <th scope="col">Quantidade</th>
+                   <th scope="col">Opção</th>                
+                </tr>
+            </thead>
+            <tbody>
+                <?php  
+                    listarLivros();
+                ?>
+            </tbody>
 
            </table>
            </div>
