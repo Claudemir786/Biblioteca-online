@@ -1,15 +1,24 @@
-<?php
+<?php   
     require '../Controller/UsuarioController.php';
+    require '../Dao/LivroDao.php';
+    
     session_start();
 
-     //se a pagina vieer carregando o id de sessão 
+     //se a pagina vier carregando o id de sessão 
     if(isset($_SESSION['cod'])){
-       //usuado o id para buscar informações, lembrando que esse 'COD' da sessão é o id do usuario 
+       //usado o id para buscar informaç de usuário, lembrando que esse 'COD' da sessão é o id do usuario 
         $usuarioId = $_SESSION['cod'];
-
         $usuarioDaoInfo = new UsuarioDao();
-
         $usuarioInfo = $usuarioDaoInfo->buscaId($usuarioId);
+
+         
+        //usado o id para buscar a quantidade de livros que o usuário tem emprestado
+        $idUsuarioLivro = $_SESSION['cod'];
+        $livroDaoInfo = new LivroDao();
+        
+        $quantidadeLivro = $livroDaoInfo->livrosUsuario($idUsuarioLivro);
+        $quantidade = count($quantidadeLivro); //pega a quantidade que vem do banco, um detalhe é que os dados vem em forma de array
+
 
     }
 ?>
@@ -40,7 +49,9 @@
                 <li class="list-group-item">Email Cadastrado: <p class="fw-bold">
                     <?= isset($usuarioInfo) && $usuarioInfo->getEmail() ? $usuarioInfo->getEmail() : 'Email não encontrado' ?></p></li>   
                 <!--futuramente adicionar o campo de alterar senha e alterar email-->                
-                <li class="list-group-item">Livros emprestados no momento: <p class="fw-bold">**</p></li>
+                <li class="list-group-item">Livros emprestados no momento: <p class="fw-bold">
+                    <?= isset($quantidade) ? $quantidade : 'Não foram encontrados livors emprestados por este usuario' ?>
+                </p></li>
 
             </ul>
            

@@ -46,7 +46,7 @@
             </thead>
             <tbody>
                 <?php  
-                    livrosUsuario($usuarioId);
+                    livroUsuario($usuarioId);
                 ?>
             </tbody>
        </table>
