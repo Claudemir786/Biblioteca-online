@@ -24,9 +24,17 @@
                     <td>{$livroE->getPagina()}</td>
                     <td>{$livroE->getEditora()}</td>
                     <td>{$livroE->getQuantidade()}</td>
-                    <td> <a href='' class = 'btn btn-info'>Emprestar</a> </td>
+                    <td>  
+                        <form action='../Controller/LivroController.php' method='get'> 
+                            <input type='hidden' value='{$livroE->getId()}' name='idLivro' /> 
+                            <input type='hidden' value='{$livroE->getQuantidade()}' name='quantidade' /> 
+                            <input type='hidden' value='{$livroE->getIdUsuario()}' name='idUsuario' /> 
+                            <button type='submit' class='btn btn-info' name='emprestar' >Emprestar</button>
+                        </form> 
+                    </td>
                 </tr>
             ";
+            #neste caso é mostrado informações do livro e o botão de emprestimo, neste form é enviado o id do livro através de um input invisivel 
         }
 
     }
@@ -131,7 +139,24 @@
                 echo("livro não encontrado");
             }
             
+        }else if(isset($_GET['emprestar'])){
+          
+            $idRecibido = ($_GET['idLivro']);            
+            $quantidadeRecebida = ($_GET['quantidade']-1);
+            $idUsuario = ($_GET['idUsuario']);
+
+            $alterarQuant = new livroDao();           
+            $retorno = $alterarQuant->emprestar($idRecibido,$idUsuario);              
+            if($retorno){
+                session_start();
+                $idU = $_SESSION['cod'];
+                echo "<script>window.location.href ='../View/Perfil.php?id={$idU}';</script>";
+
+            }else{
+                echo"erro ao pegar emprestado";
+            }
         }
     }
+   
    
 ?>

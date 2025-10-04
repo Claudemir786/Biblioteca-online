@@ -17,9 +17,17 @@ CREATE TABLE LIVRO(
     isbn VARCHAR(20) UNIQUE,
     quantidade INT NOT NULL,
     ano_publicacao INT,
-    id_usuario INT,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+   
 );
 
-
+DROP TABLE LIVRO;
+CREATE TABLE emprestimo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_livro INT NOT NULL,
+    data_emprestimo DATETIME DEFAULT CURRENT_TIMESTAMP,
+    devolvido TINYINT(1) DEFAULT 0, -- 0 = não devolvido, 1 = devolvido
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+    FOREIGN KEY (id_livro) REFERENCES livro(id)
+);
 

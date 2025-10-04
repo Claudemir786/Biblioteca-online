@@ -11,6 +11,8 @@
      
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -66,7 +68,8 @@
            <header class="p-5">
                 <h1 class="text-center" style="font-family:Arial, Helvetica, sans-serif; color:#06355e;">Lista de livros Diponiveis</h1>
                
-           </header> 
+           </header>
+           <!--<a href='../Controller/LivroController.php?e=1' class="btn btn-info"  > Emprestar</a>-->
            <div>
            <table class="table table-hover">
             <thead>

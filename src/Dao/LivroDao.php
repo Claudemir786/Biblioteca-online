@@ -14,12 +14,14 @@
 
         foreach($retorno as $linha){
           $livro = new Livro();
+          $livro->setId($linha['id']);
           $livro->setTitulo($linha['titulo']);
           $livro->setAutor($linha['autor']);
           $livro->setGenero($linha['genero']);
           $livro->setPagina($linha['pagina']);
           $livro->setEditora($linha['editora']);
           $livro->setQuantidade($linha['quantidade']);
+          $livro->setIdUsuario($linha['id_usuario']);
           $listaLivros[] = $livro;
         }
 
@@ -132,6 +134,45 @@
       }
     
 
+  }
+  public function emprestar($idLivro,$idUsuario){
+    try{
+    
+       $conn = ConnectionFactory::getConnection();
+        $conn->beginTransaction();
+
+        // Verifica se há quantidade disponível
+        $sqlCheck = "SELECT quantidade FROM livro WHERE id = :id";
+        $stmtCheck = $conn->prepare($sqlCheck);
+        $stmtCheck->bindValue(":id", $idLivro);
+        $stmtCheck->execute();
+        $quantidade = $stmtCheck->fetchColumn();
+
+        if ($quantidade <= 0) {
+            throw new Exception("Este livro não está disponível no momento.");
+        }
+
+        // Insere na tabela emprestimo
+        $sqlEmprestimo = "INSERT INTO emprestimo (id_usuario, id_livro) VALUES (:usuario, :livro)";
+        $stmtEmprestimo = $conn->prepare($sqlEmprestimo);
+        $stmtEmprestimo->bindValue(":usuario", $idUsuario);
+        $stmtEmprestimo->bindValue(":livro", $idLivro);
+        $stmtEmprestimo->execute();
+
+        // Diminui a quantidade do livro
+        $sqlUpdate = "UPDATE livro SET quantidade = quantidade - 1 WHERE id = :id";
+        $stmtUpdate = $conn->prepare($sqlUpdate);
+        $stmtUpdate->bindValue(":id", $idLivro);
+        $stmtUpdate->execute();
+
+        $conn->commit();
+        return true;
+  
+
+    }catch(PDOException $e){
+
+      return "<p> erro ao conectar com o banco de dados $e</p>";
+    }
   }
 
   }
