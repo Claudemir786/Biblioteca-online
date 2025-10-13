@@ -16,11 +16,11 @@ CREATE TABLE LIVRO(
     editora VARCHAR(150),   
     isbn VARCHAR(20) UNIQUE,
     quantidade INT NOT NULL,
-    ano_publicacao INT,
+    ano_publicacao INT
    
 );
 
-DROP TABLE LIVRO;
+
 CREATE TABLE emprestimo (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
@@ -31,3 +31,7 @@ CREATE TABLE emprestimo (
     FOREIGN KEY (id_livro) REFERENCES livro(id)
 );
 
+select * from emprestimo 
+
+INSERT INTO emprestimo (id_usuario, id_livro, data_emprestimo,devolvido)
+VALUES (1, 155, NOW(), 0);

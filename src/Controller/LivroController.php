@@ -26,9 +26,8 @@
                     <td>{$livroE->getQuantidade()}</td>
                     <td>  
                         <form action='../Controller/LivroController.php' method='get'> 
-                            <input type='hidden' value='{$livroE->getId()}' name='idLivro' /> 
-                            <input type='hidden' value='{$livroE->getQuantidade()}' name='quantidade' /> 
-                            <input type='hidden' value='{$livroE->getIdUsuario()}' name='idUsuario' /> 
+                            <input type='hidden' value='{$livroE->getId()}' name='idLivro' />                           
+                             
                             <button type='submit' class='btn btn-info' name='emprestar' >Emprestar</button>
                         </form> 
                     </td>
@@ -44,23 +43,16 @@
         $livroUsuario = new Livro();
         $livroUsuarioDao = new LivroDao();
 
-        $listaLivroUsuario = $livroUsuarioDao->livrosUsuario($id);
+        $livroUsuario = $livroUsuarioDao->livrosUsuario($id);       
+         
+      if($livroUsuario != false){
+          
+        var_dump($livroUsuario);
 
-       
-
-       foreach($listaLivroUsuario as $livroUsuario){
-             echo "
-                <tr> 
-                    <td>{$livroUsuario->getTitulo()}</td>
-                    <td>{$livroUsuario->getAutor()}</td>
-                    <td>{$livroUsuario->getGenero()}</td>
-                    <td>{$livroUsuario->getPagina()}</td>
-                    <td>{$livroUsuario->getEditora()}</td>
-                    <td> <a haref = '' class='btn btn-primary' >Devolver</a></td>
-                 
-                </tr>
-            ";
-        }
+      }
+         
+        
+            
 
     }
 
@@ -141,15 +133,17 @@
             
         }else if(isset($_GET['emprestar'])){
           
-            $idRecibido = ($_GET['idLivro']);            
-            $quantidadeRecebida = ($_GET['quantidade']-1);
-            $idUsuario = ($_GET['idUsuario']);
-
+            $idRecibido = ($_GET['idLivro']);
+            session_start();
+                $idU = $_SESSION['cod'];      
+          
             $alterarQuant = new livroDao();           
-            $retorno = $alterarQuant->emprestar($idRecibido,$idUsuario);              
-            if($retorno){
-                session_start();
-                $idU = $_SESSION['cod'];
+            $retorno = $alterarQuant->emprestar($idRecibido,$idU);
+            
+           
+
+            if($retorno != false){
+                
                 echo "<script>window.location.href ='../View/Perfil.php?id={$idU}';</script>";
 
             }else{

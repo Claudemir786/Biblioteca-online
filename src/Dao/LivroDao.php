@@ -21,7 +21,7 @@
           $livro->setPagina($linha['pagina']);
           $livro->setEditora($linha['editora']);
           $livro->setQuantidade($linha['quantidade']);
-          $livro->setIdUsuario($linha['id_usuario']);
+         
           $listaLivros[] = $livro;
         }
 
@@ -33,38 +33,78 @@
       }
     }
   
-
     public function livrosUsuario($id){
 
       try{
-        $sql = "SELECT * FROM livro WHERE id_usuario = :id_usuario";
-        $conn = ConnectionFactory::getConnection()->prepare($sql);
-        $conn ->bindValue(":id_usuario", $id);
-        $conn-> execute();
-        $retornoId = $conn->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id";
+        $conn= ConnectionFactory::getConnection()->prepare($sql);
+        $conn->bindValue(":id", $id);
+        $conn->execute();
+        $emprestimoEncontrado=$conn->fetchall(PDO::FETCH_ASSOC);
 
-        $livros = [];
+        if($emprestimoEncontrado){   
 
-        foreach($retornoId as $linha){
-          $livroU = new Livro();
-          $livroU->setTitulo($linha['titulo']);
-          $livroU->setAutor($linha['autor']);
-          $livroU->setGenero($linha['genero']);
-          $livroU->setPagina($linha['pagina']);
-          $livroU->setEditora($linha['editora']);
-          $livros[] =$livroU; 
-        }
-
-      return $livros;
+          return $emprestimoEncontrado;
+          //fazer o retorno correto de todos os livros, primeiro pegue o id de todos e depois
+          //pesquisar um por um em cada id de livro
+          foreach($emprestimoEncontrado as $line){
+              
+          }
+          
+        } 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+         /* $idLivro1 =($emprestimoEncontrado['id_livro']);
+          $sql2 = "SELECT * FROM livro WHERE id = :id";
+          $conn2= ConnectionFactory::getConnection()->prepare($sql2);
+          $conn2->bindValue(":id", $idLivro1);
+          $conn2->execute();
+          $livroE=$conn2->fetch(PDO::FETCH_ASSOC);
+
+          if($livroE){
+
+            $livro1 = new Livro();
+            $livro1->setTitulo($livroE['titulo']);
+            $livro1->setAutor($livroE['autor']);
+            $livro1->setPagina($livroE['pagina']);
+            $livro1->setGenero($livroE['genero']);
+            $livro1->setEditora($livroE['editora']);
+            $livro1->setIsbn($livroE['isbn']);       
       
+            return$livro1;
+          
+          }else{
+            return false;
+          }
+
+        }else{
+          return false;
+        }*/
 
       }catch(PDOException $e){
-        return "<p> erro ao conectar com o banco de dados $e</p>";
+      return "<p> erro ao conectar com o banco de dados $e</p>";
       }
+
     }
 
+    
     public function buscarLivro($nome){
 
       try{
@@ -142,21 +182,22 @@
         $conn->beginTransaction();
 
         // Verifica se há quantidade disponível
-        $sqlCheck = "SELECT quantidade FROM livro WHERE id = :id";
-        $stmtCheck = $conn->prepare($sqlCheck);
+        $sql = "SELECT quantidade FROM livro WHERE id = :id";
+        $stmtCheck = $conn->prepare($sql);
         $stmtCheck->bindValue(":id", $idLivro);
         $stmtCheck->execute();
         $quantidade = $stmtCheck->fetchColumn();
 
         if ($quantidade <= 0) {
-            throw new Exception("Este livro não está disponível no momento.");
+            return false;
         }
 
         // Insere na tabela emprestimo
-        $sqlEmprestimo = "INSERT INTO emprestimo (id_usuario, id_livro) VALUES (:usuario, :livro)";
+        $sqlEmprestimo = "INSERT INTO emprestimo (id_usuario, id_livro, data_emprestimo, devolvido) 
+        VALUES (:usuario, :livro, NOW(), 0)";
         $stmtEmprestimo = $conn->prepare($sqlEmprestimo);
         $stmtEmprestimo->bindValue(":usuario", $idUsuario);
-        $stmtEmprestimo->bindValue(":livro", $idLivro);
+        $stmtEmprestimo->bindValue(":livro", $idLivro);    
         $stmtEmprestimo->execute();
 
         // Diminui a quantidade do livro
@@ -173,6 +214,17 @@
 
       return "<p> erro ao conectar com o banco de dados $e</p>";
     }
+  }
+
+  public function quantidadeEmprestimo($id){
+
+     $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id";
+        $conn= ConnectionFactory::getConnection()->prepare($sql);
+        $conn->bindValue(":id", $id);
+        $conn->execute();
+        $emprestimoEncontrado=$conn->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $emprestimoEncontrado;
   }
 
   }

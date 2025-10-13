@@ -16,8 +16,8 @@
         $idUsuarioLivro = $_SESSION['cod'];
         $livroDaoInfo = new LivroDao();
         
-        $quantidadeLivro = $livroDaoInfo->livrosUsuario($idUsuarioLivro);
-        $quantidade = count($quantidadeLivro); //pega a quantidade que vem do banco, um detalhe é que os dados vem em forma de array
+        $quantidadeLivro = $livroDaoInfo->quantidadeEmprestimo($idUsuarioLivro);
+        $quantidade = count($quantidadeLivro); //pega a quantidade que vem do banco, um detalhe é que os dados vem em forma de array*/
 
 
     }

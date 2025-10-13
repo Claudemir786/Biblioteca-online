@@ -75,7 +75,9 @@ function menssagemErroCadastro(){
         $usuariol ->setEmail($_POST['email']);
         $usuariol ->setSenha($_POST['password']);        
         $usuarioEncontrado = $usuarioDaol->logar($usuariol);       
-       
+
+        #echo "resposta $usuarioEncontrado";
+        
         if($usuarioEncontrado != 0 ){
             //exibe um alerta com o nome do usuario e logo depois é direcionado a pagina principal do projeto
             echo" <script>alert('Olá {$usuarioEncontrado['nome']}'); 
