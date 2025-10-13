@@ -32,7 +32,7 @@
       return "<p> erro ao conectar com o banco de dados $e</p>";
       }
     }
-  
+    
     public function livrosUsuario($id){
 
       try{
@@ -42,62 +42,16 @@
         $conn->execute();
         $emprestimoEncontrado=$conn->fetchall(PDO::FETCH_ASSOC);
 
-        if($emprestimoEncontrado){   
-
-          return $emprestimoEncontrado;
-          //fazer o retorno correto de todos os livros, primeiro pegue o id de todos e depois
-          //pesquisar um por um em cada id de livro
-          foreach($emprestimoEncontrado as $line){
-              
-          }
+        if($emprestimoEncontrado){       
+          $buscarIds = new LivroDao();
+         $livros= $buscarIds->lerIdsLivros($emprestimoEncontrado);
+         
+         return $livros;
           
         } 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                   
-         /* $idLivro1 =($emprestimoEncontrado['id_livro']);
-          $sql2 = "SELECT * FROM livro WHERE id = :id";
-          $conn2= ConnectionFactory::getConnection()->prepare($sql2);
-          $conn2->bindValue(":id", $idLivro1);
-          $conn2->execute();
-          $livroE=$conn2->fetch(PDO::FETCH_ASSOC);
-
-          if($livroE){
-
-            $livro1 = new Livro();
-            $livro1->setTitulo($livroE['titulo']);
-            $livro1->setAutor($livroE['autor']);
-            $livro1->setPagina($livroE['pagina']);
-            $livro1->setGenero($livroE['genero']);
-            $livro1->setEditora($livroE['editora']);
-            $livro1->setIsbn($livroE['isbn']);       
-      
-            return$livro1;
-          
-          }else{
-            return false;
-          }
-
-        }else{
           return false;
-        }*/
-
+                   
+     
       }catch(PDOException $e){
       return "<p> erro ao conectar com o banco de dados $e</p>";
       }
@@ -225,6 +179,50 @@
         $emprestimoEncontrado=$conn->fetchAll(PDO::FETCH_ASSOC);
         
         return $emprestimoEncontrado;
+  }
+
+  public function lerIdsLivros($emprestimos){
+
+    $idsLivros = [];        
+        //guarda todos os ids dos livros em um array
+        foreach($emprestimos as $line){
+            $idsLivros [] = $line['id_livro'];
+        }      
+
+        $livrosEncontrados = [];
+        //pega cada numero de id e busca no banco
+        for($i=0; $i<count($idsLivros); $i++){
+
+          try{
+
+          $sql = "SELECT * FROM livro WHERE id = :id";
+          $conn = ConnectionFactory::getConnection()->prepare($sql);
+          $conn->bindValue(":id", $idsLivros[$i]);
+          $conn->execute();
+          $livroRe = $conn->fetch(PDO::FETCH_ASSOC);
+          
+          if($livroRe){
+            $encontroLivro = new Livro();
+            $encontroLivro->setId($livroRe['id']);
+            $encontroLivro->setTitulo($livroRe['titulo']);
+            $encontroLivro->setAutor($livroRe['autor']);
+            $encontroLivro->setPagina($livroRe['pagina']);
+            $encontroLivro->setGenero($livroRe['genero']);
+            $encontroLivro->setEditora($livroRe['editora']);
+            $encontroLivro->setIsbn($livroRe['isbn']);
+            $encontroLivro->setQuantidade($livroRe['quantidade']);
+            $encontroLivro->setAnoPublicação($livroRe['ano_publicacao']);
+            $livrosEncontrados[] = $encontroLivro;
+          }
+        }catch(PDOException $e){
+
+          return "<p> erro ao conectar com o banco de dados $e</p>";
+        }
+
+        }
+
+      return $livrosEncontrados;
+
   }
 
   }

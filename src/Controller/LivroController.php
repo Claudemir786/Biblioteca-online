@@ -47,8 +47,30 @@
          
       if($livroUsuario != false){
           
-        var_dump($livroUsuario);
+       foreach($livroUsuario as $livro){
 
+        echo"<tr>
+                <td>{$livro->getTitulo()}</td>
+                <td>{$livro->getAutor()}</td>
+                <td>{$livro->getGenero()}</td>
+                <td>{$livro->getPagina()}</td>
+                <td>{$livro->getEditora()}</td>
+                <td>
+                    <form action='../Controller/LivroController.php' method='get'> 
+                        <input type='hidden' value='{$livro->getId()}' name='idLivro' />
+                        <button type='submit' class='btn btn-primary' name='devolver' >Devolver</button>
+                    </form>                               
+                              
+                </td>
+        
+            </tr>";
+
+       }
+
+
+      }else{
+
+        echo "<p>Falha ao emcontrar livros na base de dados</p>";
       }
          
         
@@ -90,7 +112,14 @@
                     <td>{$livroRetorno->getGenero()}</td>
                     <td>{$livroRetorno->getPagina()}</td>
                     <td>{$livroRetorno->getEditora()}</td>
-                    <td> <a haref = '' class='btn btn-info' >Emprestar</a></td>                 
+                    <td> 
+                        <form action='../Controller/LivroController.php' method='get'> 
+                            <input type='hidden' value='{$livroRetorno->getId()}' name='idLivro' />                           
+                             
+                            <button type='submit' class='btn btn-info' name='emprestar' >Emprestar</button>
+                        </form> 
+                    
+                    </td>                 
                 </tr>
             
             </tbody>
