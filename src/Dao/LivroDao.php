@@ -36,13 +36,14 @@
     public function livrosUsuario($id){
 
       try{
+        #primeiro verifica se o usuario possui algum emprestimo
         $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id";
         $conn= ConnectionFactory::getConnection()->prepare($sql);
         $conn->bindValue(":id", $id);
         $conn->execute();
         $emprestimoEncontrado=$conn->fetchall(PDO::FETCH_ASSOC);
 
-        if($emprestimoEncontrado){       
+        if($emprestimoEncontrado){#encontra o emprestimo       
           $buscarIds = new LivroDao();
          $livros= $buscarIds->lerIdsLivros($emprestimoEncontrado);
          
@@ -140,11 +141,13 @@
         $stmtCheck = $conn->prepare($sql);
         $stmtCheck->bindValue(":id", $idLivro);
         $stmtCheck->execute();
-        $quantidade = $stmtCheck->fetchColumn();
+        $quantidade = $stmtCheck->fetchColumn();#verifica se foi encontrado colunas no banco
 
         if ($quantidade <= 0) {
             return false;
         }
+        //verifica se este livro ja está emprestado
+        
 
         // Insere na tabela emprestimo
         $sqlEmprestimo = "INSERT INTO emprestimo (id_usuario, id_livro, data_emprestimo, devolvido) 
@@ -170,6 +173,7 @@
     }
   }
 
+  #verifica a quantidade de emprestimos que o usuário possui 
   public function quantidadeEmprestimo($id){
 
      $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id";
@@ -180,6 +184,7 @@
         
         return $emprestimoEncontrado;
   }
+  
 
   public function lerIdsLivros($emprestimos){
 

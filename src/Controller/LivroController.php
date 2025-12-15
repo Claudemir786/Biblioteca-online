@@ -7,13 +7,13 @@
     require '../Dao/UsuarioDao.php';
     require '../Dao/LivroDao.php';
 
-
+    #função que lista todos os livros na página inicial 
     function listarLivros(){         
        
         $livroE = new Livro();
         $livroListaDao = new LivroDao();
 
-        $livroLista = $livroListaDao->listar();
+        $livroLista = $livroListaDao->listar();#chama o método listar na DAO
 
         foreach($livroLista as $livroE){
             echo "
@@ -38,6 +38,7 @@
 
     }
 
+    #encontra o livro via id do usuário
     function livroUsuario($id){
 
         $livroUsuario = new Livro();
@@ -70,7 +71,7 @@
 
       }else{
 
-        echo "<p>Falha ao emcontrar livros na base de dados</p>";
+        echo "<h2 class= 'text-center'>Não foram encontrados livros</h2>";
       }
          
         
@@ -78,6 +79,7 @@
 
     }
 
+    #função que está vinculada ao campo livre de "buscar" na tela inicial, serve prar mostrar o livro com o nome procurado
     function livroId($id){        
         
         $livro1Dao = new LivroDao();
@@ -134,8 +136,10 @@
 
     }
 
+
   if($_SERVER["REQUEST_METHOD"] == "GET"){
 
+    #esse IF refere-se ao buscar livro por nome na pagina inicial 
         if(isset($_GET['procurar'])){
             
             $livroBusca = ($_GET['buscar']);
@@ -160,7 +164,7 @@
                 echo("livro não encontrado");
             }
             
-        }else if(isset($_GET['emprestar'])){
+        }else if(isset($_GET['emprestar'])){#entra em ação quando é clicado no botão de emprestar na tela inicial 
           
             $idRecibido = ($_GET['idLivro']);
             session_start();
@@ -176,7 +180,7 @@
                 echo "<script>window.location.href ='../View/Perfil.php?id={$idU}';</script>";
 
             }else{
-                echo"erro ao pegar emprestado";
+                echo"Não há estoque desse produto";
             }
         }
     }

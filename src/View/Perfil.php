@@ -19,7 +19,7 @@
 <body>
      <nav class="navbar navbar-expand-lg border shadow-lg" style="background-color:#fff;">
         <div class="container-fluid d-flex flex-wrap">        
-            <a href="./TelaInicial.html"  class="text-decoration-none"> <h1 style="font-family:Arial, Helvetica, sans-serif; color:#06355e;" class="me-5"><i class="bi bi-book-half"></i> Raízes do saber</h1>  </a>        
+            <a href="./TelaInicial.php"  class="text-decoration-none"> <h1 style="font-family:Arial, Helvetica, sans-serif; color:#06355e;" class="me-5"><i class="bi bi-book-half"></i> Raízes do saber</h1>  </a>        
 
         <div class="me-5">
             <a href="./InfoConta.php" class="btn ms-5" style="background-color:#2082d8;">Informações da conta<i class="bi bi-lock"></i></a>

@@ -53,7 +53,7 @@
    
        <div class="row align-items-center justify-content-center d-flex">
         <?php 
-        #retorno com id de usuario e de livro pesquisado
+        #retorno com id de usuario e de livro pesquisado depois de clicar em "buscar"
             if(isset($_GET['id']) && isset($_GET['r'])){        
               
                 
