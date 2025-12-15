@@ -33,6 +33,9 @@
              <Header><h1 style="color: #06355e;">Lista de livros emprestados</h1></Header>
               
         </div>
+        <div class="text-center p-2">
+            <p class="text-center fw-bold fs-4"> Favor comparecer a este endereço para retirada: Rua fictícia N৹:55 Bairro: Fictício </p>
+        </div>
        <table class="table table-hover">
          <thead >
                 <tr>

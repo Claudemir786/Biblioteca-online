@@ -23,7 +23,7 @@
                     <td>{$livroE->getGenero()}</td>
                     <td>{$livroE->getPagina()}</td>
                     <td>{$livroE->getEditora()}</td>
-                    <td>{$livroE->getQuantidade()}</td>
+                   
                     <td>  
                         <form action='../Controller/LivroController.php' method='get'> 
                             <input type='hidden' value='{$livroE->getId()}' name='idLivro' />                           
@@ -103,7 +103,7 @@
                    <th scope='col'>Gênero</th>  
                    <th scope='col'>Páginas</th>                  
                    <th scope='col>Editora</th> 
-                   <th scope='col'>Quantidade</th>
+                   <th scope='col'>Editora</th>
                    <th scope='col'>Opção</th>                
                 </tr>
             </thead>
@@ -174,14 +174,39 @@
             $retorno = $alterarQuant->emprestar($idRecibido,$idU);
             
            
-
-            if($retorno != false){
+           
+            if($retorno === true){
                 
                 echo "<script>window.location.href ='../View/Perfil.php?id={$idU}';</script>";
 
+            }else if($retorno === 2){
+                echo"<script>alert('Você ja está com este livro emprestado') 
+                 window.location.href = '../View/TelaInicial.php?id={$idU}';
+                </script> ";
             }else{
-                echo"Não há estoque desse produto";
+                echo"<script>alert('Não há estoque desse produto')
+                    window.location.href = '../View/TelaInicial.php?id={$idU}';
+                </script>";
             }
+        }else if(isset($_GET['devolver'])){#usado para pegar o id do livro quando clicado no botão de "devolver"
+
+            $idLivroD = ($_GET['idLivro']);
+            session_start();
+            $idUsuario = $_SESSION['cod'];
+            #echo"id do livro: $idLivroD id do usuario:$idUsuario";
+            $devolver = new LivroDao();
+            $devolucao = $devolver->devolver($idLivro, $idUsuario);
+
+            if($devolucao == true){
+                echo"<script>alert('Seu livro foi devolvido com sucesso');
+                    window.location.href = '../View/TelaInicial.php?id={$idUsuario}';
+                </script>";    
+            }else{
+                 echo"<script>alert('Erro ao devolver o livro')
+                      window.location.href = '../View/Perfil.php';
+                      </script>";  
+            }
+
         }
     }
    

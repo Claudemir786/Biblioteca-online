@@ -52,9 +52,11 @@ if(isset($_GET['id'])){
           <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 3rem; color: #06355e;" class="fw-bold">Biblioteca Raízes do saber</h2>
           <p class="fs-4">Aproveite o grande acervo de livros que temos disponiveis para você pegar emprestado e aproveitar!
             Não gostou do livro? não tem problema, você pode devolve-lo e pegar outro do seu agrado, o que não falta
-            aqui são opções
-            pra todos os estilos. Desde romances até hqs e mangás
+            aqui são opções pra todos os estilos. Desde romances até hqs e mangás.
           </p>
+          <p class="fs-4 fw-bold">Como funciona?</p>
+          <p class="fs-4">Você utiliza nossa plataforma para ecolher um livro e pegar emprestado e  depois retire no local.</p>
+          <p class="fs-4 ">Estamos localizados no endereço: Rua fictícia N৹:55 Bairro: Fictício</p>
         </div>
       </div>     
       <div class="col bg-imagem col-md-4 col-lg-4 mb-5 d-none  d-md-block">  
@@ -89,7 +91,7 @@ if(isset($_GET['id'])){
   </div>
     <div class=" mt-3 d-flex justify-content-center align-items-center p-3" style="background-color: #fff;">
       <footer >
-        <p>Desenvolvido por : Claudemir Junior</p>
+        <p>Desenvolvido por :©Claudemir Junior</p>
       </footer>
       </div>
 </body>

@@ -134,7 +134,7 @@
     try{
     
        $conn = ConnectionFactory::getConnection();
-        $conn->beginTransaction();
+        //$conn->beginTransaction();
 
         // Verifica se há quantidade disponível
         $sql = "SELECT quantidade FROM livro WHERE id = :id";
@@ -147,7 +147,17 @@
             return false;
         }
         //verifica se este livro ja está emprestado
-        
+        $sqlVerificacao = "SELECT id_usuario, id_livro FROM emprestimo WHERE id_usuario = :usuario AND id_livro = :livro 
+        AND devolvido = 0";
+       
+        $smtpVerificacao= $conn->prepare($sqlVerificacao);
+        $smtpVerificacao->bindValue(":usuario", $idUsuario);
+        $smtpVerificacao->bindValue(":livro", $idLivro);       
+        $smtpVerificacao->execute();
+        $emprestimoEncontrado = $smtpVerificacao->fetchColumn();
+        if($emprestimoEncontrado > 0){
+          return 2;
+        }      
 
         // Insere na tabela emprestimo
         $sqlEmprestimo = "INSERT INTO emprestimo (id_usuario, id_livro, data_emprestimo, devolvido) 
@@ -228,6 +238,17 @@
 
       return $livrosEncontrados;
 
+  }
+  public function devolver($usuario,$livro){
+
+    try{
+      return true;
+
+    }catch(PDOException $e){
+      return "<p> erro ao conectar com o banco de dados $e</p>";  
+
+    }
+    
   }
 
   }
