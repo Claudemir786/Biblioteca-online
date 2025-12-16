@@ -78,8 +78,9 @@
                    <th scope="col">Autor</th>
                    <th scope="col">Gênero</th>  
                    <th scope="col">Páginas</th>                  
-                   <th scope="col">Editora</th>                 
-                   <th scope="col">Opção</th>                
+                   <th scope="col">Editora</th> 
+                   <th scope="col">Quantidade</th>                
+                               
                 </tr>
             </thead>
             <tbody>

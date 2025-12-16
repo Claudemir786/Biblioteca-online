@@ -1,6 +1,8 @@
-<?php   
+<?php 
+    
     require '../Controller/UsuarioController.php';
     require '../Dao/LivroDao.php';
+    
     
     session_start();
 
@@ -52,8 +54,20 @@
                 <li class="list-group-item">Livros emprestados no momento: <p class="fw-bold">
                     <?= isset($quantidade) ? $quantidade : 'Não foram encontrados livors emprestados por este usuario' ?>
                 </p></li>
-
+                <li class="list-group-item">Histórico de livros emprestados 
+                    <form action="../Controller//LivroController.php" method="get">
+                        <input type="hidden" name="historico"/>
+                        <input type="submit" name="ver" value="Ver" class="btn" style="background-color: #20d3d8;"/>
+                    </form>
+                </li>
+                <li class="list-group-item">
+                    <form action="../Controller/UsuarioController.php" method="post">
+                        <input type="hidden" name="deletar" />
+                        <input type="submit" value="Excluir Conta" class="btn" style="background-color: #4e0202ff; color:#fff;"  />
+                    </form>
+                </li>
             </ul>
+
            
           
         </div>

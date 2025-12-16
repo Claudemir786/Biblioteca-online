@@ -33,11 +33,17 @@
       }
     }
     
-    public function livrosUsuario($id){
+    public function livrosUsuario($id,$historico){
 
       try{
-        #primeiro verifica se o usuario possui algum emprestimo
-        $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id";
+        #verificação de exibição de livros que ja foram emprestados e devolvidos
+        if($historico){
+          
+
+        }else{#livros que não forma devoldidos
+
+        #primeiro verifica se o usuario possui algum emprestimo que não foi devolvido ainda
+        $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id AND devolvido = 0";
         $conn= ConnectionFactory::getConnection()->prepare($sql);
         $conn->bindValue(":id", $id);
         $conn->execute();
@@ -51,13 +57,56 @@
           
         } 
           return false;
-                   
+      }     
      
       }catch(PDOException $e){
       return "<p> erro ao conectar com o banco de dados $e</p>";
       }
 
     }
+    public function lerIdsLivros($emprestimos){
+
+        $idsLivros = [];        
+            //guarda todos os ids dos livros em um array
+            foreach($emprestimos as $line){
+                $idsLivros [] = $line['id_livro'];
+            }      
+
+            $livrosEncontrados = [];
+            //pega cada numero de id e busca no banco
+            for($i=0; $i<count($idsLivros); $i++){
+
+              try{
+
+              $sql = "SELECT * FROM livro WHERE id = :id";
+              $conn = ConnectionFactory::getConnection()->prepare($sql);
+              $conn->bindValue(":id", $idsLivros[$i]);
+              $conn->execute();
+              $livroRe = $conn->fetch(PDO::FETCH_ASSOC);
+              
+              if($livroRe){
+                $encontroLivro = new Livro();
+                $encontroLivro->setId($livroRe['id']);
+                $encontroLivro->setTitulo($livroRe['titulo']);
+                $encontroLivro->setAutor($livroRe['autor']);
+                $encontroLivro->setPagina($livroRe['pagina']);
+                $encontroLivro->setGenero($livroRe['genero']);
+                $encontroLivro->setEditora($livroRe['editora']);
+                $encontroLivro->setIsbn($livroRe['isbn']);
+                $encontroLivro->setQuantidade($livroRe['quantidade']);
+                $encontroLivro->setAnoPublicação($livroRe['ano_publicacao']);
+                $livrosEncontrados[] = $encontroLivro;
+              }
+            }catch(PDOException $e){
+
+              return "<p> erro ao conectar com o banco de dados $e</p>";
+            }
+
+            }
+
+          return $livrosEncontrados;
+
+      }
 
     
     public function buscarLivro($nome){
@@ -144,7 +193,7 @@
         $quantidade = $stmtCheck->fetchColumn();#verifica se foi encontrado colunas no banco
 
         if ($quantidade <= 0) {
-            return false;
+            return 3;
         }
         //verifica se este livro ja está emprestado
         $sqlVerificacao = "SELECT id_usuario, id_livro FROM emprestimo WHERE id_usuario = :usuario AND id_livro = :livro 
@@ -173,8 +222,8 @@
         $stmtUpdate->bindValue(":id", $idLivro);
         $stmtUpdate->execute();
 
-        $conn->commit();
-        return true;
+        //$conn->commit();
+        return 1;
   
 
     }catch(PDOException $e){
@@ -196,53 +245,31 @@
   }
   
 
-  public function lerIdsLivros($emprestimos){
+  
 
-    $idsLivros = [];        
-        //guarda todos os ids dos livros em um array
-        foreach($emprestimos as $line){
-            $idsLivros [] = $line['id_livro'];
-        }      
+  #Atualaiza o estado de emprestimo e estoque quando devolve 
+  public function devolver($livro,$usuario){
 
-        $livrosEncontrados = [];
-        //pega cada numero de id e busca no banco
-        for($i=0; $i<count($idsLivros); $i++){
+    try{       
+      $sql = "UPDATE emprestimo SET devolvido = 1 WHERE id_usuario = :usuario AND id_livro = :livro AND devolvido = 0";
+      $conn = ConnectionFactory::getConnection()->prepare($sql);
+      $conn->bindValue(":usuario", $usuario);
+      $conn->bindValue(":livro", $livro);
+      $conn->execute();
 
-          try{
+      if($conn->rowCount() > 0){
 
-          $sql = "SELECT * FROM livro WHERE id = :id";
-          $conn = ConnectionFactory::getConnection()->prepare($sql);
-          $conn->bindValue(":id", $idsLivros[$i]);
-          $conn->execute();
-          $livroRe = $conn->fetch(PDO::FETCH_ASSOC);
-          
-          if($livroRe){
-            $encontroLivro = new Livro();
-            $encontroLivro->setId($livroRe['id']);
-            $encontroLivro->setTitulo($livroRe['titulo']);
-            $encontroLivro->setAutor($livroRe['autor']);
-            $encontroLivro->setPagina($livroRe['pagina']);
-            $encontroLivro->setGenero($livroRe['genero']);
-            $encontroLivro->setEditora($livroRe['editora']);
-            $encontroLivro->setIsbn($livroRe['isbn']);
-            $encontroLivro->setQuantidade($livroRe['quantidade']);
-            $encontroLivro->setAnoPublicação($livroRe['ano_publicacao']);
-            $livrosEncontrados[] = $encontroLivro;
-          }
-        }catch(PDOException $e){
+        $sql ="UPDATE livro set quantidade = quantidade+1 WHERE id=:livro";
+        $conn = ConnectionFactory::getConnection()->prepare($sql);
+        $conn->bindValue(":livro", $livro);
+        $conn->execute();
+          if($conn->rowCount() > 0){
+             return  true;
+          }       
 
-          return "<p> erro ao conectar com o banco de dados $e</p>";
-        }
-
-        }
-
-      return $livrosEncontrados;
-
-  }
-  public function devolver($usuario,$livro){
-
-    try{
-      return true;
+      }else{
+        return false;
+      }    
 
     }catch(PDOException $e){
       return "<p> erro ao conectar com o banco de dados $e</p>";  
