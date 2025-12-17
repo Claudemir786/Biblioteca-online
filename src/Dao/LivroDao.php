@@ -31,19 +31,19 @@
       }catch(PDOException $e){
       return "<p> erro ao conectar com o banco de dados $e</p>";
       }
-    }
-    
+    }   
+  
     public function livrosUsuario($id,$historico){
-
       try{
-        #verificação de exibição de livros que ja foram emprestados e devolvidos
+
         if($historico){
-          
-
-        }else{#livros que não forma devoldidos
-
-        #primeiro verifica se o usuario possui algum emprestimo que não foi devolvido ainda
-        $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id AND devolvido = 0";
+          #historico de devolvidos
+           $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id AND devolvido = 1";
+        }else{
+          #livros pendentes que não foram devolvidos
+           $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id AND devolvido = 0";
+        }           
+        
         $conn= ConnectionFactory::getConnection()->prepare($sql);
         $conn->bindValue(":id", $id);
         $conn->execute();
@@ -51,19 +51,20 @@
 
         if($emprestimoEncontrado){#encontra o emprestimo       
           $buscarIds = new LivroDao();
-         $livros= $buscarIds->lerIdsLivros($emprestimoEncontrado);
-         
-         return $livros;
+        $livros= $buscarIds->lerIdsLivros($emprestimoEncontrado);
+        
+        return $livros;
           
-        } 
-          return false;
-      }     
-     
+      } 
+        return false;
       }catch(PDOException $e){
+
       return "<p> erro ao conectar com o banco de dados $e</p>";
+
       }
 
     }
+
     public function lerIdsLivros($emprestimos){
 
         $idsLivros = [];        
@@ -277,7 +278,27 @@
     }
     
   }
+  public function dataEmprestimo($idLivro, $idUsuario){
+    try{
+      $sql = "SELECT data_emprestimo FROM emprestimo WHERE id_livro = :livro AND id_usuario = :usuario AND devolvido = 1 LIMIT 1";
+      $conn = ConnectionFactory::getConnection()->prepare($sql);
+      $conn->bindValue(":livro", $idLivro);
+      $conn->bindValue(":usuario", $idUsuario);
+      $conn->execute();
+      $dataE = $conn->fetch(PDO::FETCH_ASSOC);
+        //pega a data          
+            $data = $dataE['data_emprestimo'];
+            //tranforma em data local
+            $dataFormat= date('d/m/Y', strtotime($data));
+      return $dataFormat;   
 
+
+
+    }catch(PDOException $e){
+      return"<p> erro ao conectar com o banco de dados $e</p>";
+    }
+  }
+  
   }
 
   

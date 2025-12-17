@@ -31,7 +31,7 @@
 
         try{
             //busca somente pelo email no banco de dados, lembrando que o email no banco está como UNICO
-            $sql = "SELECT * FROM usuario WHERE email = :email";
+            $sql = "SELECT * FROM usuario WHERE email = :email AND ativo = 1";
             $conn = ConnectionFactory::getConnection()->prepare($sql);           
             $conn ->bindValue(":email" , $usuario->getEmail());           
             $conn->execute();
@@ -48,7 +48,7 @@
     
 
         }catch(PDOException $e){
-            echo"<h1>Erro: $e </h1>";
+            echo"Erro ao conectar no banco de dados: $e";
             return 1;
         }
 
@@ -83,9 +83,30 @@
 
          }catch(PDOException $e){
 
-            echo"<h1>Erro: $e </h1> ";
+            echo"Erro ao conectar no banco de dados: $e";
             return 1;
          }
+    }
+    public function delete($id){
+
+        try{
+            $sql = "UPDATE usuario SET ativo = 0 WHERE id = :idUsuario";
+            $conn = ConnectionFactory::getConnection()->prepare($sql);
+            $conn->bindValue(":idUsuario", $id);
+            $conn->execute();
+
+            if($conn->rowCount() > 0){
+                return 1;
+            }else{
+                return 2;
+            }
+
+        }catch(PDOException $e){
+
+            echo"Erro ao conectar no banco de dados: $e";
+            return 3;
+        }
+
     }
  }
 ?>

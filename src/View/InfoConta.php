@@ -1,14 +1,14 @@
 <?php 
     
-    require '../Controller/UsuarioController.php';
-    require '../Dao/LivroDao.php';
+    require_once '../Controller/UsuarioController.php';
+    require_once '../Dao/LivroDao.php';
     
     
     session_start();
 
      //se a pagina vier carregando o id de sessão 
     if(isset($_SESSION['cod'])){
-       //usado o id para buscar informaç de usuário, lembrando que esse 'COD' da sessão é o id do usuario 
+       //usado o id para buscar informação de usuário, lembrando que esse 'COD' da sessão é o id do usuario 
         $usuarioId = $_SESSION['cod'];
         $usuarioDaoInfo = new UsuarioDao();
         $usuarioInfo = $usuarioDaoInfo->buscaId($usuarioId);
@@ -49,21 +49,38 @@
                     <?= isset($usuarioInfo) && $usuarioInfo->getNome() ? $usuarioInfo->getNome() : 'Usuario não encontrado' ?> <!--if ternario para preencher os campos de acordo com a busca pelo id-->
                     <?= isset($usuarioInfo) && $usuarioInfo->getSobrenome() ? $usuarioInfo->getSobrenome() : '' ?> </p></li>   
                 <li class="list-group-item">Email Cadastrado: <p class="fw-bold">
-                    <?= isset($usuarioInfo) && $usuarioInfo->getEmail() ? $usuarioInfo->getEmail() : 'Email não encontrado' ?></p></li>   
-                <!--futuramente adicionar o campo de alterar senha e alterar email-->                
-                <li class="list-group-item">Livros emprestados no momento: <p class="fw-bold">
-                    <?= isset($quantidade) ? $quantidade : 'Não foram encontrados livors emprestados por este usuario' ?>
-                </p></li>
+                    <?= isset($usuarioInfo) && $usuarioInfo->getEmail() ? $usuarioInfo->getEmail() : 'Email não encontrado' ?></p></li>  
+              
                 <li class="list-group-item">Histórico de livros emprestados 
-                    <form action="../Controller//LivroController.php" method="get">
+                    <form action="" method="get">
                         <input type="hidden" name="historico"/>
                         <input type="submit" name="ver" value="Ver" class="btn" style="background-color: #20d3d8;"/>
                     </form>
+                    <?php 
+
+                    if($_SERVER['REQUEST_METHOD'] ==='GET'){
+                        if(isset($_GET['ver'])){#vem do botão de verificar histórico de livros
+                            echo" <table class='table table-hover'>
+                                    <thead >
+                                            <tr>
+                                            <th scope='col'>Titulo</th> 
+                                            <th scope='col'>Autor</th>
+                                            <th scope='col'>Gênero</th>
+                                            <th scope='col'>Data Emprestimo</th>                                                                                                                     
+                                            </tr>
+                                        </thead>
+                                        <tbody>";                           
+                           include_once '../Controller/LivroController.php';
+                           lerHistorico();
+                            echo"</tbody></table>";
+                         }
+                        }
+                    ?>
                 </li>
                 <li class="list-group-item">
                     <form action="../Controller/UsuarioController.php" method="post">
-                        <input type="hidden" name="deletar" />
-                        <input type="submit" value="Excluir Conta" class="btn" style="background-color: #4e0202ff; color:#fff;"  />
+                        <input type="hidden" name="deletar"/>
+                        <input type="submit" value="Excluir Conta" name="delete" class="btn" style="background-color: #4e0202ff; color:#fff;"  />
                     </form>
                 </li>
             </ul>

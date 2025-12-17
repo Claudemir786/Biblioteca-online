@@ -31,7 +31,11 @@
             <form action="../Controller/LivroController.php" method="get">
             <div class="row">
                 <div class="col">
-                    <input type="text" class="form-control " name="buscar" id="busca" placeholder="Buscar Livro">
+                   
+                    <select name="buscar" class="form-select">
+                        <option>Buscar Livro</option>
+                       <?php listarLivros(true) ?>
+                    </select>
                 </div>
                 <div class="col" >
                     <input type="submit" class="btn "style="background-color: #06355e; color: #fff;" name="procurar" value="Buscar">    
@@ -85,7 +89,7 @@
             </thead>
             <tbody>
                 <?php  
-                    listarLivros();
+                    listarLivros(false);
                 ?>
             </tbody>
 

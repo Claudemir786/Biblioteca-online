@@ -1,43 +1,56 @@
 <?php 
 
    
-    require '../Model/Livro.php';
-    require '../Model/Usuario.php';
-    require '../Dao/ConnectionFactory.php';
-    require '../Dao/UsuarioDao.php';
-    require '../Dao/LivroDao.php';
+    require_once '../Model/Livro.php';
+    require_once '../Model/Usuario.php';
+    require_once '../Dao/ConnectionFactory.php';
+    require_once '../Dao/UsuarioDao.php';
+    require_once '../Dao/LivroDao.php';
 
     #função que lista todos os livros na página inicial 
-    function listarLivros(){         
+    function listarLivros($select){         
        
-        $livroE = new Livro();
-        $livroListaDao = new LivroDao();
+        if($select){
+             $livroE = new Livro();
+            $livroListaDao = new LivroDao();
 
-        $livroLista = $livroListaDao->listar();#chama o método listar na DAO
+            $livroLista = $livroListaDao->listar();#chama o método listar na DAO
 
-        foreach($livroLista as $livroE){
-            echo "
-                <tr> 
-                    <td>{$livroE->getTitulo()}</td>
-                    <td>{$livroE->getAutor()}</td>
-                    <td>{$livroE->getGenero()}</td>
-                    <td>{$livroE->getPagina()}</td>
-                    <td>{$livroE->getEditora()}</td>
+            foreach($livroLista as $livroE){
+                echo "
+                    <option value'{$livroE->getTitulo()}'>{$livroE->getTitulo()}</option>
+                ";
+            }
+        }else{
+            $livroE = new Livro();
+            $livroListaDao = new LivroDao();
+
+            $livroLista = $livroListaDao->listar();#chama o método listar na DAO
+
+            foreach($livroLista as $livroE){
+                echo "
+                    <tr> 
+                        <td>{$livroE->getTitulo()}</td>
+                        <td>{$livroE->getAutor()}</td>
+                        <td>{$livroE->getGenero()}</td>
+                        <td>{$livroE->getPagina()}</td>
+                        <td>{$livroE->getEditora()}</td>
+                        
                     
-                   
-                    <td>  
-                        <form action='../Controller/LivroController.php' method='get'> 
-                            <input type='hidden' value='{$livroE->getId()}' name='idLivro' />                           
-                             
-                            <button type='submit' class='btn btn-info' name='emprestar' >Emprestar</button>
-                        </form> 
-                    </td>
-                </tr>
-            ";
-            #neste caso é mostrado informações do livro e o botão de emprestimo, neste form é enviado o id do livro através de um input invisivel 
+                        <td>  
+                            <form action='../Controller/LivroController.php' method='get'> 
+                                <input type='hidden' value='{$livroE->getId()}' name='idLivro' />                           
+                                
+                                <button type='submit' class='btn btn-info' name='emprestar' >Emprestar</button>
+                            </form> 
+                        </td>
+                    </tr>
+                ";
+                #neste caso é mostrado informações do livro e o botão de emprestimo, neste form é enviado o id do livro através de um input invisivel 
         }
-
     }
+    }
+
 
     #encontra o livro via id do usuário
     function livroUsuario($id){
@@ -137,6 +150,35 @@
 
     }
 
+
+    function lerHistorico(){
+        $historicoLivro = new LivroDao();      
+       
+        $id = $_SESSION['cod'];
+        $historico = $historicoLivro->livrosUsuario($id,true);
+        if($historico != false){
+          
+       foreach($historico as $livro){
+            $dataEmprestimo = $historicoLivro->dataEmprestimo($livro->getId(), $id);
+                    
+            
+        echo"<tr>
+                <td>{$livro->getTitulo()}</td>
+                <td>{$livro->getAutor()}</td>
+                <td>{$livro->getGenero()}</td>                                          
+                <td>{$dataEmprestimo}</td>
+            </tr>
+           ";
+       }
+
+      }else{
+
+        echo "<h2 class= 'text-center'>Não foram encontrados livros</h2>";
+      }
+
+    }
+
+   
 
   if($_SERVER["REQUEST_METHOD"] == "GET"){
 

@@ -1,8 +1,8 @@
 <?php 
- require '../Model/Usuario.php';
- require '../Model/Livro.php';
- require '../Dao/ConnectionFactory.php';
- require '../Dao/UsuarioDao.php';
+ require_once '../Model/Usuario.php';
+ require_once '../Model/Livro.php';
+ require_once '../Dao/ConnectionFactory.php';
+ require_once '../Dao/UsuarioDao.php';
  
   
 
@@ -87,15 +87,24 @@ function menssagemErroCadastro(){
            menssagemErroLogin();
         }
     }
-}
-
 
 }
+    if(isset($_POST['delete'])){
+        session_start();
+        $idUsuario = $_SESSION['cod'];
+        $usuarioDao = new UsuarioDao();
+        $delete = $usuarioDao->delete($idUsuario);
 
+        if($delete === 1){
+            echo"<script>alert('Conta excluida com sucesso');
+                        window.location.href = '../View/Index.php?id={$idUsuario}';
+                </script>";
 
-    
-    
- 
-
-
+        }else{
+            echo"<script>alert('Erro ao excluir conta');
+                        window.location.href = '../View/TelaInicial.php?id={$idUsuario}';
+                </script>";
+        }      
+    }
+ }
 ?>
