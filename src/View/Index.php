@@ -45,11 +45,11 @@ if(isset($_GET['id'])){
       </div>
     </div>
   </nav>
-  <div class="container-fluid d-flex justify-content-center align-items-center"  style="background-color: #c7efed;">
+  <div class="container-fluid  justify-content-center align-items-center"  style="background-color: #c7efed;">
     <div class="row p-0" >
-      <div class="col mt-5 p-5 mb-5" >
+      <div class="col-12 col-md-8 mt-5 p-4 mb-5" >
         <div class="mt-5 p-4">
-          <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 3rem; color: #06355e;" class="fw-bold">Biblioteca Raízes do saber</h2>
+          <h2 style="font-family: Arial, Helvetica, sans-serif; color: #06355e;" class="fw-bold fs-2 fs-md-1">Biblioteca Raízes do saber</h2>
           <p class="fs-4">Aproveite o grande acervo de livros que temos disponiveis para você pegar emprestado e aproveitar!
             Não gostou do livro? não tem problema, você pode devolve-lo e pegar outro do seu agrado, o que não falta
             aqui são opções pra todos os estilos. Desde romances até hqs e mangás.
@@ -59,7 +59,7 @@ if(isset($_GET['id'])){
           <p class="fs-4 ">Estamos localizados no endereço: Rua fictícia N৹:55 Bairro: Fictício</p>
         </div>
       </div>     
-      <div class="col bg-imagem col-md-4 col-lg-4 mb-5 d-none  d-md-block">  
+      <div class="col-12 col-md-4 mb-5 d-none d-md-block ">  
         <img src="./img/mulher.png" class="img-fluid" alt="Mulher segurando um livro">      
       </div>
       <div class="row justify-content-evenly mt-5 mb-5">

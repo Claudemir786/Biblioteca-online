@@ -106,5 +106,45 @@ function menssagemErroCadastro(){
                 </script>";
         }      
     }
+
+    if(isset($_POST['mudarNome'])){ 
+
+        $usuarioD = new UsuarioDao();
+        session_start();
+        $id = $_SESSION['cod'];
+        $nome = $_POST['nome'];
+        $sobrenome = $_POST['sobrenome'];
+
+        $resultado = $usuarioD->alteraNome($id,$nome,$sobrenome);
+        if($resultado == true){
+            echo"<script>alert('Nome alterado com sucesso');
+                        window.location.href = '../View/InfoConta.php';
+                </script>";
+        }else{
+               echo"<script>alert('Falha ao alterar nome de usuario');
+                        window.location.href = '../View/InfoConta.php';
+                </script>";
+        } 
+           
+    }
+    if(isset($_POST['mudarEmail'])){
+
+        $usuarioDao = new UsuarioDao();
+        session_start();
+        $id = $_SESSION['cod'];
+        $email = $_POST['email'];
+
+        $resultado = $usuarioDao->alteraEmail($id,$email);
+
+        if($resultado == true){
+             echo"<script>alert('Email alterado com sucesso');
+                        window.location.href = '../View/InfoConta.php';
+                </script>";
+        }else{
+             echo"<script>alert('Falha ao alterar email');
+                        window.location.href = '../View/InfoConta.php';
+                </script>";
+        }
+    }
  }
 ?>

@@ -28,12 +28,38 @@
             $livroLista = $livroListaDao->listar();#chama o método listar na DAO
 
             foreach($livroLista as $livroE){
-                echo "
+                echo"<div class='col-12 col-md-6 col-lg-4'>
+                        <div class='card h-100 shadow-sm border border-opacity-50 '>
+                        <div class='card-body'>
+
+                            <h5 class='card-title fw-bold'>{$livroE->getTitulo()}</h5>
+                            <p class='text-muted mb-1'>{$livroE->getAutor()}</p>
+
+                            <span class='badge bg-secondary'>{$livroE->getGenero()}</span>
+
+                            <ul class='list-unstyled mt-3 mb-3'>
+                            <li><strong>Páginas:</strong> {$livroE->getPagina()}</li>
+                            <li><strong>Editora:</strong>{$livroE->getEditora()}</li>
+                            </ul>
+
+                            <form action='../Controller/LivroController.php' method='get'> 
+                                <input type='hidden' value='{$livroE->getId()}' name='idLivro' />                           
+                                
+                                <button type='submit' class='btn btn-info' name='emprestar' > 📖Emprestar</button>
+                            </form> 
+
+                           
+
+                        </div>
+                        </div>
+                    </div>";
+
+                /*echo "
                     <tr> 
                         <td>{$livroE->getTitulo()}</td>
                         <td>{$livroE->getAutor()}</td>
                         <td>{$livroE->getGenero()}</td>
-                        <td>{$livroE->getPagina()}</td>
+                        <td class='text-center'>{$livroE->getPagina()}</td>
                         <td>{$livroE->getEditora()}</td>
                         
                     
@@ -45,7 +71,7 @@
                             </form> 
                         </td>
                     </tr>
-                ";
+                ";*/
                 #neste caso é mostrado informações do livro e o botão de emprestimo, neste form é enviado o id do livro através de um input invisivel 
         }
     }
@@ -64,16 +90,16 @@
           
        foreach($livroUsuario as $livro){
 
-        echo"<tr>
-                <td>{$livro->getTitulo()}</td>
-                <td>{$livro->getAutor()}</td>
-                <td>{$livro->getGenero()}</td>
-                <td>{$livro->getPagina()}</td>
-                <td>{$livro->getEditora()}</td>
-                <td>
+        echo"<tr class='text-center'>
+                <td class='d-none d-md-table-cell'>{$livro->getTitulo()}</td>
+                <td class='d-none d-md-table-cell'>{$livro->getAutor()}</td>
+                <td class='d-none d-md-table-cell'>{$livro->getGenero()}</td>
+                <td class='d-none d-md-table-cell'>{$livro->getPagina()}</td>
+                <td class='d-none d-md-table-cell'>{$livro->getEditora()}</td>
+                <td class='d-none d-md-table-cell'>
                     <form action='../Controller/LivroController.php' method='get'> 
                         <input type='hidden' value='{$livro->getId()}' name='idLivro' />
-                        <button type='submit' class='btn btn-primary' name='devolver' >Devolver</button>
+                        <button type='submit' class='btn btn-sm btn-primary w-100 w-md-auto' name='devolver' >Devolver</button>
                     </form>                               
                               
                 </td>
@@ -85,7 +111,7 @@
 
       }else{
 
-        echo "<h2 class= 'text-center'>Não foram encontrados livros</h2>";
+        livroNaoencontrado();
       }
          
         
@@ -102,7 +128,7 @@
 
         if($livroRetorno == false){
 
-             echo"<h2>Livro não encontrado na base da dados <h2>";
+             livroNaoencontrado();
 
         }else{
 
@@ -172,8 +198,7 @@
        }
 
       }else{
-
-        echo "<h2 class= 'text-center'>Não foram encontrados livros</h2>";
+        livroNaoencontrado();
       }
 
     }
@@ -203,8 +228,7 @@
                 echo "<script>window.location.href ='../View/TelaInicial.php?id={$idU}&r={$idLivro}';</script>";
                 
             }else{
-
-                echo("livro não encontrado");
+                livroNaoencontrado();
             }
             
         }else if(isset($_GET['emprestar'])){#entra em ação quando é clicado no botão de emprestar na tela inicial 
@@ -252,6 +276,26 @@
             }
 
         }
+    }
+    function livroNaoencontrado(){
+        echo"<div style='
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            '>
+                <img 
+                    src='../View/img/LivroNãoEncontrado.png'
+                    alt='Livro não encontrado'
+                    style='max-width: 500px; width: 100%;'
+                >
+            </div>
+           ";
     }
    
    

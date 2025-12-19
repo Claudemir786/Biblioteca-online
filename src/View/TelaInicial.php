@@ -22,40 +22,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <title>Tela inicial</title>
 </head>
-<body>
+<body >
     <nav class="navbar navbar-expand-lg border shadow-lg" style="background-color:#fff;">
     <div class="container-fluid d-flex flex-wrap">        
              <h1 style="font-family:Arial, Helvetica, sans-serif; color:#06355e;" class="me-5"><i class="bi bi-book-half"></i> Raízes do saber</h1>            
     
-        <div class="col">
+        <div class="col-12 col-md-6 col-lg-4">
             <form action="../Controller/LivroController.php" method="get">
             <div class="row">
-                <div class="col">
+                <div class="col-12 col-md-10 col-lg-8 ">
                    
                     <select name="buscar" class="form-select">
                         <option>Buscar Livro</option>
                        <?php listarLivros(true) ?>
                     </select>
                 </div>
-                <div class="col" >
+                <div class="col-12 col-md-6 col-lg-4" >
                     <input type="submit" class="btn "style="background-color: #06355e; color: #fff;" name="procurar" value="Buscar">    
                 </div>
             </div>       
          
         </form>   
         </div> 
-        <div >
-            <a href="./Perfil.php" class="btn ms-5" style="background-color:#2082d8;">Perfil<i class="bi bi-person"></i></a>
+        <div class='d-flex gap-2 mt-2 mt-lg-0'>
+            <a href="./Perfil.php" class="btn " style="background-color:#2082d8;">Perfil<i class="bi bi-person"></i></a>
         </div>
-        <div class="me-5">
-            <a href="./Index.php?id=$_SESSION['cod']" class="btn ms-5"  value = "sair" name="sair" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i>
+        <div class="d-flex gap-2 mt-2 mt-lg-0">
+            <a href="./Index.php?id=$_SESSION['cod']" class="btn "  value = "sair" name="sair" style="background-color:#20d3d8">Sair<i class="bi bi-box-arrow-in-right"></i>
 </a>
         </div>
     
     </div>
 </nav>
    
-       <div class="row align-items-center justify-content-center d-flex">
+       <div class="row align-items-center justify-content-center ">
         <?php 
         #retorno com id de usuario e de livro pesquisado depois de clicar em "buscar"
             if(isset($_GET['id']) && isset($_GET['r'])){        
@@ -68,33 +68,49 @@
         
             }
         ?>
-         <div class="container" id=corpo>
-           <header class="p-5">
-                <h1 class="text-center" style="font-family:Arial, Helvetica, sans-serif; color:#06355e;">Lista de livros Diponiveis</h1>
+         <div class="container mt-4 mb-5" id=corpo>
+           <header class="py-3 py-md-5">
+                <h2 class="text-center fw-bold my-4" style="font-family:Arial, Helvetica, sans-serif; color:#06355e;">Lista de livros Diponiveis</h2>
                
            </header>
-           <!--<a href='../Controller/LivroController.php?e=1' class="btn btn-info"  > Emprestar</a>-->
-           <div>
-           <table class="table table-hover">
-            <thead>
-                <tr>
-                   <th scope="col">Titulo</th> 
-                   <th scope="col">Autor</th>
-                   <th scope="col">Gênero</th>  
-                   <th scope="col">Páginas</th>                  
-                   <th scope="col">Editora</th> 
-                   <th scope="col">Quantidade</th>                
-                               
-                </tr>
-            </thead>
-            <tbody>
-                <?php  
-                    listarLivros(false);
-                ?>
-            </tbody>
+                <div class="row g-4">
 
-           </table>
-           </div>
+                   <?php 
+                    listarLivros(false);
+                   ?>>
+                    
+
+            </div>
+
+            
+           
+          <!-- <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                <th scope="col">Titulo</th> 
+                                <th scope="col">Autor</th>
+                                <th scope="col">Gênero</th>  
+                                <th scope="col">Páginas</th>                  
+                                <th scope="col">Editora</th> 
+                                <th scope="col">Quantidade</th>                
+                                            
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                    //listarLivros(false);
+                                ?>
+                            </tbody>
+
+                            </table>
+                    </div>
+                </div>
+
+           </div> -->
+           
        </div>
 
     </div>

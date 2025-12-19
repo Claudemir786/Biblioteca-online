@@ -14,13 +14,7 @@
         $usuarioInfo = $usuarioDaoInfo->buscaId($usuarioId);
 
          
-        //usado o id para buscar a quantidade de livros que o usuário tem emprestado
-        $idUsuarioLivro = $_SESSION['cod'];
-        $livroDaoInfo = new LivroDao();
-        
-        $quantidadeLivro = $livroDaoInfo->quantidadeEmprestimo($idUsuarioLivro);
-        $quantidade = count($quantidadeLivro); //pega a quantidade que vem do banco, um detalhe é que os dados vem em forma de array*/
-
+     
 
     }
 ?>
@@ -43,14 +37,38 @@
         </div>
 </nav>
     <div class="container">
-        <div class="row mt-5 pt-4">
+            <div class="row mt-5 pt-4" >
+                
              <ul class="list-group list-group-flush">
                 <li class="list-group-item">Nome: <p class="fw-bold"> 
                     <?= isset($usuarioInfo) && $usuarioInfo->getNome() ? $usuarioInfo->getNome() : 'Usuario não encontrado' ?> <!--if ternario para preencher os campos de acordo com a busca pelo id-->
-                    <?= isset($usuarioInfo) && $usuarioInfo->getSobrenome() ? $usuarioInfo->getSobrenome() : '' ?> </p></li>   
+                    <?= isset($usuarioInfo) && $usuarioInfo->getSobrenome() ? $usuarioInfo->getSobrenome() : '' ?></p>
+                    <!--Alteração de nome-->
+                    <a href="#" onclick="campoNome()" id="linkNome" class="text-decoration-none ">Mudar nome</a>
+                    <form action="../Controller/UsuarioController.php" method="post" style="display:none;" id="nomeUser">
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="nome" class="form-control" placeholder="Novo nome de cadastro" required>
+                            </div>
+                            <div class="col">
+                                 <input type="text" name="sobrenome" class="form-control mb-3" placeholder="Sobrenome" required>
+                            </div>
+                        </div>                
+                       <input type="submit" name="mudarNome" class="btn btn-info">
+                    </form>
+                </li>  
+                     
                 <li class="list-group-item">Email Cadastrado: <p class="fw-bold">
-                    <?= isset($usuarioInfo) && $usuarioInfo->getEmail() ? $usuarioInfo->getEmail() : 'Email não encontrado' ?></p></li>  
-              
+                    <?= isset($usuarioInfo) && $usuarioInfo->getEmail() ? $usuarioInfo->getEmail() : 'Email não encontrado' ?></p>
+                    <!--Alteração de email-->
+                    <a href="#" onclick="campoEmail()" id="linkEmail" class="text-decoration-none ">Alterar email cadastrado</a> 
+                     <form action="../Controller/UsuarioController.php" method="post" style="display:none;" id="mail">
+                        <input type="mail" name="email" class="form-control mb-3" placeholder="Digite o novo email" required>
+                        <input type="submit" name="mudarEmail" class="btn btn-info">
+                    </form>
+                   
+                </li>  
+
                 <li class="list-group-item">Histórico de livros emprestados 
                     <form action="" method="get">
                         <input type="hidden" name="historico"/>
@@ -92,3 +110,14 @@
     </div>
 </body>
 </html>
+<script>
+    function campoNome(){
+       document.getElementById('linkNome').style.display ='none';
+       document.getElementById('nomeUser').style.display='block';
+    }
+    function campoEmail(){
+        document.getElementById('linkEmail').style.display='none';
+        document.getElementById('mail').style.display='block';
+
+    }
+</script>

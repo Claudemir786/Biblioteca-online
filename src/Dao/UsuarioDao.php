@@ -108,5 +108,50 @@
         }
 
     }
+
+    public function alteraNome($id,$nome,$sobrenome){
+
+        try{
+
+            $sql = "UPDATE usuario SET nome = :nomeUser, sobrenome = :sobrenomeUser WHERE id = :idUser";
+            $conn = ConnectionFactory::getConnection()->prepare($sql);
+            $conn->bindValue(":idUser", $id);
+            $conn->bindValue(":nomeUser", $nome);
+            $conn->bindValue(":sobrenomeUser", $sobrenome);
+            $conn->execute();
+            if($conn->rowCount()>0){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(PDOException $e){            
+            echo"Erro ao conectar no banco de dados: $e";
+            return false;
+        }
+
+
+    }
+    public function alteraEmail($id,$email){
+
+        try{
+            $sql = "UPDATE usuario SET email = :email WHERE id = :id";
+            $conn = ConnectionFactory::getConnection()->prepare($sql);
+            $conn->bindValue(":id", $id);
+            $conn->bindValue(":email", $email);
+            $conn->execute();
+
+            if($conn->rowCount() > 0){
+                return true;
+            }else{
+                return false;
+            }
+
+            
+        }catch(PDOException $e){
+            echo"Erro ao conectar no banco de dados: $e";
+            return false;
+        }
+    }
  }
 ?>
