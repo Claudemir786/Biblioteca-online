@@ -1,11 +1,32 @@
-<?php 
-
-   
+<?php    
     require_once '../Model/Livro.php';
     require_once '../Model/Usuario.php';
     require_once '../Dao/ConnectionFactory.php';
     require_once '../Dao/UsuarioDao.php';
     require_once '../Dao/LivroDao.php';
+
+#----------------FUNÇÕES--------------------------------------------------------------------------------------------------------------
+    #imagem de erro ao encontrar livro
+    function livroNaoencontrado(){
+        echo"<div style='
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            '>
+                <img 
+                    src='../View/img/LivroNãoEncontrado.png'
+                    alt='Livro não encontrado'
+                    style='max-width: 500px; width: 100%;'
+                >
+            </div>
+           ";
+    }
 
     #função que lista todos os livros na página inicial 
     function listarLivros($select){         
@@ -28,55 +49,35 @@
             $livroLista = $livroListaDao->listar();#chama o método listar na DAO
 
             foreach($livroLista as $livroE){
-                echo"<div class='col-12 col-md-6 col-lg-4'>
-                        <div class='card h-100 shadow-sm border border-opacity-50 '>
-                        <div class='card-body'>
-
-                            <h5 class='card-title fw-bold'>{$livroE->getTitulo()}</h5>
-                            <p class='text-muted mb-1'>{$livroE->getAutor()}</p>
-
-                            <span class='badge bg-secondary'>{$livroE->getGenero()}</span>
-
-                            <ul class='list-unstyled mt-3 mb-3'>
-                            <li><strong>Páginas:</strong> {$livroE->getPagina()}</li>
-                            <li><strong>Editora:</strong>{$livroE->getEditora()}</li>
+              
+                    echo"
+                        <div class='card text-center mb-4 ms-4 border-shadow' style='width: 18rem;'>
+                            
+                            <div class='card-body'>
+                                <h5 class='card-title'>{$livroE->getTitulo()}</h5>
+                                
+                            </div>
+                            <ul class='list-group list-group-flush'>
+                                <li class='list-group-item'>Autor: {$livroE->getAutor()}</li>
+                                <li class='list-group-item'>Gênero: {$livroE->getGenero()}</li>
+                                <li class='list-group-item'>{$livroE->getEditora()}</li>
                             </ul>
-
-                            <form action='../Controller/LivroController.php' method='get'> 
-                                <input type='hidden' value='{$livroE->getId()}' name='idLivro' />                           
-                                
-                                <button type='submit' class='btn btn-info' name='emprestar' > 📖Emprestar</button>
-                            </form> 
-
                            
-
-                        </div>
-                        </div>
-                    </div>";
-
-                /*echo "
-                    <tr> 
-                        <td>{$livroE->getTitulo()}</td>
-                        <td>{$livroE->getAutor()}</td>
-                        <td>{$livroE->getGenero()}</td>
-                        <td class='text-center'>{$livroE->getPagina()}</td>
-                        <td>{$livroE->getEditora()}</td>
-                        
-                    
-                        <td>  
                             <form action='../Controller/LivroController.php' method='get'> 
                                 <input type='hidden' value='{$livroE->getId()}' name='idLivro' />                           
                                 
-                                <button type='submit' class='btn btn-info' name='emprestar' >Emprestar</button>
+                                <button type='submit' class='btn btn-info' name='emprestar' > Emprestar</button>
                             </form> 
-                        </td>
-                    </tr>
-                ";*/
-                #neste caso é mostrado informações do livro e o botão de emprestimo, neste form é enviado o id do livro através de um input invisivel 
+                            
+                            
+                            
+                            </div>
+                    ";
+
+             
+            }
         }
     }
-    }
-
 
     #encontra o livro via id do usuário
     function livroUsuario($id){
@@ -89,34 +90,35 @@
       if($livroUsuario != false){
           
        foreach($livroUsuario as $livro){
-
-        echo"<tr class='text-center'>
-                <td class='d-none d-md-table-cell'>{$livro->getTitulo()}</td>
-                <td class='d-none d-md-table-cell'>{$livro->getAutor()}</td>
-                <td class='d-none d-md-table-cell'>{$livro->getGenero()}</td>
-                <td class='d-none d-md-table-cell'>{$livro->getPagina()}</td>
-                <td class='d-none d-md-table-cell'>{$livro->getEditora()}</td>
-                <td class='d-none d-md-table-cell'>
+            echo"
+                <div class='card text-center mb-4 ms-5 border-shadow' style='width: 18rem;'>
+                    
+                    <div class='card-body'>
+                        <h5 class='card-title'>{$livro->getTitulo()}</h5>
+                        
+                    </div>
+                    <ul class='list-group list-group-flush'>
+                        <li class='list-group-item'>Autor: {$livro->getAutor()}</li>
+                        <li class='list-group-item'>Gênero: {$livro->getGenero()}</li>
+                        <li class='list-group-item'>{$livro->getEditora()}</li>
+                    </ul>
                     <form action='../Controller/LivroController.php' method='get'> 
                         <input type='hidden' value='{$livro->getId()}' name='idLivro' />
-                        <button type='submit' class='btn btn-sm btn-primary w-100 w-md-auto' name='devolver' >Devolver</button>
+                        <button type='submit' class='btn btn-primary' name='devolver' >Devolver</button>
                     </form>                               
-                              
-                </td>
-        
-            </tr>";
-
+                        
+                    
+                    
+                    
+                    </div>
+                ";    
+     
        }
-
-
       }else{
 
         livroNaoencontrado();
-      }
-         
-        
-            
-
+      }      
+ 
     }
 
     #função que está vinculada ao campo livre de "buscar" na tela inicial, serve prar mostrar o livro com o nome procurado
@@ -131,48 +133,29 @@
              livroNaoencontrado();
 
         }else{
-
-            #tabela que mostra o livro encontrado por meio do Id
-            echo "
-             <div >
-           <table class='table table-hover mt-5'>
-            <thead>
-                <tr>
-                   <th scope='col'>Titulo</th> 
-                   <th scope='col'>Autor</th>
-                   <th scope='col'>Gênero</th>  
-                   <th scope='col'>Páginas</th>                  
-                   <th scope='col>Editora</th> 
-                   <th scope='col'>Editora</th>
-                   <th scope='col'>Opção</th>                
-                </tr>
-            </thead>
-             <tbody>
-                <tr> 
-                    <td>{$livroRetorno->getTitulo()}</td>
-                    <td>{$livroRetorno->getAutor()}</td>
-                    <td>{$livroRetorno->getGenero()}</td>
-                    <td>{$livroRetorno->getPagina()}</td>
-                    <td>{$livroRetorno->getEditora()}</td>
-                    <td> 
-                        <form action='../Controller/LivroController.php' method='get'> 
+               #card que mostra o livro encontrado por meio do Id
+              echo"
+                <div class='card text-center mb-4 mt-5 ms-5 border-shadow' style='width: 18rem;'>
+                    
+                    <div class='card-body'>
+                        <h5 class='card-title'>{$livroRetorno->getTitulo()}</h5>
+                        
+                    </div>
+                    <ul class='list-group list-group-flush'>
+                        <li class='list-group-item'>Autor: {$livroRetorno->getAutor()}</li>
+                        <li class='list-group-item'>Gênero: {$livroRetorno->getGenero()}</li>
+                        <li class='list-group-item'>{$livroRetorno->getEditora()}</li>
+                    </ul>
+                     <form action='../Controller/LivroController.php' method='get'> 
                             <input type='hidden' value='{$livroRetorno->getId()}' name='idLivro' />                           
                              
                             <button type='submit' class='btn btn-info' name='emprestar' >Emprestar</button>
-                        </form> 
+                        </form>              
+                  
                     
-                    </td>                 
-                </tr>
-            
-            </tbody>
-
-             </table>
-           </div>"
-               ;
-           
+                    </div>
+                ";         
         }
-
-
 
     }
 
@@ -203,7 +186,36 @@
 
     }
 
-   
+    function livroCategoria($categoria){
+        $categoriaDao = new LivroDao();
+        $lista = $categoriaDao->lerCategoria($categoria);   
+        
+        if($lista == false){
+            livroNaoencontrado();
+        }else{
+            foreach($lista as $linha){
+                 echo"<div class='card text-center mb-4 ms-4 border-shadow' style='width: 18rem;'>                            
+                            <div class='card-body'>
+                                <h5 class='card-title'>{$linha->getTitulo()}</h5>                                
+                            </div>
+                            <ul class='list-group list-group-flush'>
+                                <li class='list-group-item'>Autor: {$linha->getAutor()}</li>
+                                <li class='list-group-item'>Gênero: {$linha->getGenero()}</li>
+                                <li class='list-group-item'>{$linha->getEditora()}</li>
+                            </ul>                           
+                            <form action='../Controller/LivroController.php' method='get'> 
+                                <input type='hidden' value='{$linha->getId()}' name='idLivro' />                         
+                                
+                                <button type='submit' class='btn btn-info' name='emprestar' > Emprestar</button>
+                            </form>                           
+                            </div>";                                                     
+                    
+            }
+        }
+
+    }
+
+#----------------REQUISIÇÕES GET --------------------------------------------------------------------------------------------
 
   if($_SERVER["REQUEST_METHOD"] == "GET"){
 
@@ -254,6 +266,7 @@
                     window.location.href = '../View/TelaInicial.php?id={$idU}';
                 </script>";
             }
+
         }else if(isset($_GET['devolver'])){#usado para pegar o id do livro quando clicado no botão de "devolver"
 
             $idLivroD = ($_GET['idLivro']);
@@ -276,27 +289,9 @@
             }
 
         }
+       
     }
-    function livroNaoencontrado(){
-        echo"<div style='
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 9999;
-            '>
-                <img 
-                    src='../View/img/LivroNãoEncontrado.png'
-                    alt='Livro não encontrado'
-                    style='max-width: 500px; width: 100%;'
-                >
-            </div>
-           ";
-    }
+    
    
    
 ?>

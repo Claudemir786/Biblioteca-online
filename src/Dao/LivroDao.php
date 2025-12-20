@@ -2,6 +2,13 @@
   
   class LivroDao{
 
+    public function livroF($linha){
+          
+    }
+
+
+    
+
     public function listar(){
 
       try{
@@ -13,14 +20,14 @@
         $listaLivros = [];
 
         foreach($retorno as $linha){
-          $livro = new Livro();
+         $livro = new Livro();
           $livro->setId($linha['id']);
           $livro->setTitulo($linha['titulo']);
           $livro->setAutor($linha['autor']);
           $livro->setGenero($linha['genero']);
           $livro->setPagina($linha['pagina']);
           $livro->setEditora($linha['editora']);
-          $livro->setQuantidade($linha['quantidade']);
+          $livro->setQuantidade($linha['quantidade']);       
          
           $listaLivros[] = $livro;
         }
@@ -155,7 +162,7 @@
         $retornoId = $conn->fetch(PDO::FETCH_ASSOC);
 
         if($retornoId){
-
+          
           $livroId = new Livro();
           $livroId->setTitulo($retornoId['titulo']);
           $livroId->setAutor($retornoId['autor']);
@@ -223,7 +230,7 @@
         $stmtUpdate->bindValue(":id", $idLivro);
         $stmtUpdate->execute();
 
-        //$conn->commit();
+        
         return 1;
   
 
@@ -295,7 +302,84 @@
 
 
     }catch(PDOException $e){
-      return"<p> erro ao conectar com o banco de dados $e</p>";
+       echo"<p> erro ao conectar com o banco de dados $e</p>";
+       return false;
+    }
+  }
+
+  public function lerCategoria($categoria){
+
+    function livro($linha){
+      $livro = new Livro();
+      $livro->setId($linha['id']);
+      $livro->setTitulo($linha['titulo']);
+      $livro->setAutor($linha['autor']);                   
+      $livro->setGenero($linha['genero']);
+      $livro->setPagina($linha['pagina']);
+      $livro->setEditora($linha['editora']);
+      $livro->setQuantidade($linha['quantidade']);
+      return $livro;
+}
+    try{
+         if($categoria === 'romance'){
+           
+          $sqlRomance = "SELECT * FROM livro WHERE genero = :genero";
+          $connRomance = ConnectionFactory::getConnection()->prepare($sqlRomance);
+          $connRomance ->bindValue(":genero", "Romance");
+          $connRomance->execute();
+          $livrosRomance = $connRomance->fetchAll(PDO::FETCH_ASSOC);
+          $lista = [];
+
+          if($livrosRomance){
+            foreach($livrosRomance as $linha){              
+              $livroCompleto = livro($linha);
+              $lista[] = $livroCompleto; 
+            }
+            return $lista;
+
+          }else{
+            return false;
+          }
+
+        }else if($categoria ==='hq'){
+          $sqlHq = "SELECT * FROM livro WHERE genero = :genero";
+          $connHq = ConnectionFactory::getConnection()->prepare($sqlHq);
+          $connHq ->bindValue(":genero", "HQ");
+          $connHq->execute();
+          $livrosHq = $connHq->fetchAll(PDO::FETCH_ASSOC);
+          $lista = [];
+          if($livrosHq){
+            foreach($livrosHq as $linha){
+              $livroCompleto = livro($linha);
+              $lista[] = $livroCompleto; 
+            }
+            return $lista;
+          }else{
+            return false;
+          }
+           
+        }else if($categoria ==='biografia'){
+          $sql = "SELECT * FROM livro WHERE genero = :genero";
+          $conn = ConnectionFactory::getConnection()->prepare($sql);
+          $conn ->bindValue(":genero", "Biografia");
+          $conn->execute();
+          $livros = $conn->fetchAll(PDO::FETCH_ASSOC);
+          $lista = [];
+          if($livros){
+            foreach($livros as $linha){
+              $livroCompleto = livro($linha);
+              $lista[] = $livroCompleto; 
+            }
+            return $lista;
+          }else{
+            return false;
+          }
+            
+        }
+
+    }catch(PDOException $e){
+       echo"<p> erro ao conectar com o banco de dados $e</p>";
+       return false;
     }
   }
   

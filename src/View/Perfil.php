@@ -36,24 +36,13 @@
         <div class="text-center p-2">
             <p class="fw-bold fs-6 fs-md-4 text-center px-2"> Favor comparecer a este endereço para retirada: Rua fictícia N৹:55 Bairro: Fictício </p>
         </div>
-       <div class="table-responsive">
-        <table class="table table-hover">
-            <thead >
-                    <tr class="text-center">
-                    <th scope="col"class="d-none d-md-table-cell" >Titulo</th> 
-                    <th scope="col"class="d-none d-md-table-cell">Autor</th>
-                    <th scope="col"class="d-none d-md-table-cell">Gênero</th>  
-                    <th scope="col"class="d-none d-md-table-cell">Páginas</th>                  
-                    <th scope="col"class="d-none d-md-table-cell">Editora</th>                               
-                    <th scope="col"class="d-none d-md-table-cell">Opção</th>                               
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php  
+            <div class="row g-4 d-flex justify-content-center ">
+                 <?php  
                         livroUsuario($usuarioId);
                     ?>
-                </tbody>
-        </table>
+            </div>
+                   
+             
        </div>
        
        </div>
