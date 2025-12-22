@@ -1,9 +1,11 @@
-<?php    
-    require_once '../Model/Livro.php';
-    require_once '../Model/Usuario.php';
-    require_once '../Dao/ConnectionFactory.php';
-    require_once '../Dao/UsuarioDao.php';
-    require_once '../Dao/LivroDao.php';
+<?php
+   
+    require_once __DIR__ . '/../Model/Livro.php'; 
+   
+    require_once __DIR__.'/../Model/Usuario.php';
+    require_once __DIR__ .'/../Dao/ConnectionFactory.php';
+    require_once __DIR__.'/../Dao/UsuarioDao.php';
+    require_once __DIR__.'/../Dao/LivroDao.php';
 
 #----------------FUNÇÕES--------------------------------------------------------------------------------------------------------------
     #imagem de erro ao encontrar livro
@@ -31,7 +33,7 @@
     #função que lista todos os livros na página inicial 
     function listarLivros($select){         
        
-        if($select){
+        if($select){#executa o campo de select
              $livroE = new Livro();
             $livroListaDao = new LivroDao();
 

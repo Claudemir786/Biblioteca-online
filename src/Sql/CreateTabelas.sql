@@ -31,7 +31,7 @@ CREATE TABLE emprestimo (
     FOREIGN KEY (id_livro) REFERENCES livro(id)
 );
 
-select * from usuario 
+select * from emprestimo
 
 INSERT INTO emprestimo (id_usuario, id_livro, data_emprestimo,devolvido)
 VALUES (1, 155, NOW(), 0);
