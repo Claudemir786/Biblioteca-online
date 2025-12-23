@@ -1,3 +1,6 @@
+<?php 
+    require_once '../../Controller/AdmController.php';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -24,7 +27,6 @@
             <Header  class="py-3 py-md-5">
                 <h2 class="text-center fw-bold my-4" style="font-family:Arial, Helvetica, sans-serif; color:#06355e;">Empréstimos</h2>
             </Header>
-
             <div>
                 <table class='table table-hover text-center'>
                     <thead>
@@ -33,20 +35,17 @@
                         <th scope='col'>Data do Empréstimo</th>
                         <th scope='col'>Opção</th>                                            
                     </thead>                        
-                    <tbody>
-                        <tr>                            
-                            <td>Claudemir Junior</td>
-                            <td>Amor e o Tempo</td>
-                            <td>19/12/2025</td>
-                            <td>                               
-                               <form action="../../Controller/AdmController.php" method="get" >
-                                <input type="submit" class="btn btn-info"  name="devolver" value="Devolver">
-                               </form>                       
-                            </td>                                                        
-                        </tr>
-                    </tbody>
+                    <tbody>                        
+            <?php
+                emprestimosConfirmados();
+            ?>
+              </tbody>
                 </table>
             </div>
+
+            
+    </div>    
+</div>        
 </body>
 
 

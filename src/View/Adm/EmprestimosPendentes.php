@@ -1,3 +1,8 @@
+<?php 
+
+    require_once '../../Controller/AdmController.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -34,19 +39,10 @@
                         <th scope='col'>Opção Empréstimo</th>                                            
                     </thead>                        
                     <tbody>
-                        <tr>                            
-                            <td>Claudemir Junior</td>
-                            <td>Amor e o Tempo</td>
-                            <td>19/12/2025</td>
-                            <td>
-                                <form action="../../Controller/AdmController.php" method="get" >
-                                <input type="submit" class="btn btn-info"  name="confirmar" value="Confirmar">
-                                <input type="submit" class="btn" style="background-color: #06355e; color:#fff;"  name="cancelar" value="Cancelar">
-                               </form> 
-                              
-                            </td>
-                                                        
-                        </tr>
+                        <?php 
+                            emprestimosPendentes();
+                        ?>
+                        
                     </tbody>
                 </table>
             </div>

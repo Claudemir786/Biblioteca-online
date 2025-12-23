@@ -20,21 +20,22 @@ CREATE TABLE LIVRO(
    
 );
 
-
 CREATE TABLE emprestimo (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
     id_livro INT NOT NULL,
     data_emprestimo DATETIME DEFAULT CURRENT_TIMESTAMP,
-    devolvido TINYINT(1) DEFAULT 0, -- 0 = não devolvido, 1 = devolvido
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id),
-    FOREIGN KEY (id_livro) REFERENCES livro(id)
+    devolvido TINYINT(1) DEFAULT 0, -- 0 = não devolvido, 1 = devolvido 
+    ativo TINYINT(1) NOT NULL DEFAULT 0, --0 pendente, 1 = ativo
+
+    FOREIGN KEY (id_usuario) 
+        REFERENCES usuario(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (id_livro) 
+        REFERENCES livro(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
-select * from emprestimo
-
-INSERT INTO emprestimo (id_usuario, id_livro, data_emprestimo,devolvido)
-VALUES (1, 155, NOW(), 0);
-
-ALTER TABLE usuario
-ADD ativo TINYINT(1) NOT NULL DEFAULT 1;

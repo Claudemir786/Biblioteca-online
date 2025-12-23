@@ -2,11 +2,6 @@
   
   class LivroDao{
 
-    public function livroF($linha){
-          
-    }
-
-
     
 
     public function listar(){
@@ -224,11 +219,11 @@
         $stmtEmprestimo->bindValue(":livro", $idLivro);    
         $stmtEmprestimo->execute();
 
-        // Diminui a quantidade do livro
+        /* Diminui a quantidade do livro
         $sqlUpdate = "UPDATE livro SET quantidade = quantidade - 1 WHERE id = :id";
         $stmtUpdate = $conn->prepare($sqlUpdate);
         $stmtUpdate->bindValue(":id", $idLivro);
-        $stmtUpdate->execute();
+        $stmtUpdate->execute();*/
 
         
         return 1;
