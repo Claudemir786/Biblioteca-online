@@ -95,7 +95,7 @@
             $sobrenome =$usuario->getSobrenome();
             
             #criando o obj emprestimo
-            $emprestimoObj = new EmprestimoCNome($idEmprestimo,$idLivro,$idUsuario,$tituloLivro,$nomeUsuario,$sobrenome,$dataEmprestimo);
+            $emprestimoObj = new EmprestimoCNome($idEmprestimo,$idLivro,$idUsuario,$tituloLivro,$nomeUsuario,$sobrenome,$dataEmprestimo,$eP=null,$eA=null);
             return $emprestimoObj;
         }
 
@@ -128,9 +128,77 @@
         #função que cancela o imprestimo pendente
         public function cancelEmprestimo($id){
              try{
+                $sql = "DELETE emprestimos WHERE id = :idEmprestimo";
+                $conn = ConnectionFactory::getConnection()->prepare($sql);
+                $conn ->bindValue(":idLivro", $id);
+                $conn->execute();
+                if($conn->rowCount() > 0){
+                    return true;
+                }
+                return false;
+
 
             }catch(PDOException $e){
                 return "<p>Erro ao conectar no banco de dados $e</p>";
+            }
+        }
+
+        public function dadosUser($usuarios){
+            $resultadoBusca = [];
+            try{                                     
+                foreach($usuarios as $usuario){
+                    $nome = $usuario->getNome();
+                    $sobrenome = $usuario->getSobrenome();
+                    $id = $usuario->getId();                    
+                    #buscar emprestimos desse usuario
+                    try{
+                        #emprestimo pendentes
+                        $sql = 'SELECT * FROM emprestimo WHERE id_usuario =:idUsuario AND devolvido = 0 AND ativo = 0';
+                        $conn =ConnectionFactory::getConnection()->prepare($sql);
+                        $conn->bindValue(":idUsuario", $id);
+                        $conn->execute();
+                        $res= $conn->fetchAll(PDO::FETCH_ASSOC);
+
+                        if($res){
+                            $quantPendente = count($res);                          
+                        }else{
+                            $quantPendente = 0;
+                        }
+                    }catch(PDOException $e){
+                         return "<p>Erro ao conectar no banco de dados $e</p>";
+                    }
+
+
+                    try{
+                        #emprestimos ativos
+                        $sql1 = 'SELECT * FROM emprestimo WHERE id_usuario =:idUsuario AND devolvido = 0 AND ativo = 1';
+                        $conn1 =ConnectionFactory::getConnection()->prepare($sql1);
+                        $conn1->bindValue(":idUsuario", $id);
+                        $conn1->execute();
+                        $res1= $conn1->fetchAll(PDO::FETCH_ASSOC);                       
+                        if($res1){
+                            $quantAtivos = count($res1);                          
+                        }else{
+                            $quantAtivos = 0;
+                        }
+                        
+                    }catch(PDOException $e){
+                        return "<p>Erro ao conectar no banco de dados $e</p>";
+                    }
+                    $idU = $id;
+                     $emprestimoObj = new EmprestimoCNome(
+                    $id=null,$idLivro=null,$idU,$tituloLivro=null,$nome,$sobrenome,$dataEmprestimo=null,$quantPendente,$eA=$quantAtivos);
+                     $resultadoBusca [] = $emprestimoObj;    
+
+                }
+                if(count($resultadoBusca) >0){
+                    return $resultadoBusca;
+                }
+
+                return false;
+
+            }catch(PDOException $e){
+                 return "<p>Erro ao conectar no banco de dados $e</p>";
             }
         }
     }

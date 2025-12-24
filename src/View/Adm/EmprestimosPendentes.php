@@ -27,7 +27,7 @@
         </nav>
         <div class="container mt-4 mb-5">
             <Header  class="py-3 py-md-5">
-                <h2 class="text-center fw-bold my-4" style="font-family:Arial, Helvetica, sans-serif; color:#06355e;">Emprestimos Pendentes</h2>
+                <h2 class=" text-center fw-bold my-4" style="font-family:Arial, Helvetica, sans-serif; color:#06355e;">Emprestimos Pendentes</h2>
             </Header>
 
             <div>

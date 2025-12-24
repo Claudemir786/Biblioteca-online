@@ -153,5 +153,34 @@
             return false;
         }
     }
+
+    public function buscarUsuario($nome){
+        try{
+            $sql ="SELECT * FROM usuario WHERE nome =:nome";
+            $conn = ConnectionFactory::getConnection()->prepare($sql);
+            $conn->bindValue(":nome", $nome);
+            $conn->execute();
+            $res = $conn->fetchAll(PDO::FETCH_ASSOC);
+            
+            if($res){
+                $usuarios = [];
+                foreach($res as $linha){
+                    $usuario = new Usuario();
+                    $usuario->setId($linha['id']);
+                    $usuario->setNome($linha['nome']);
+                    $usuario->setSobrenome($linha['sobrenome']);
+                    
+                    $usuarios [] = $usuario;
+                }
+                return $usuarios;
+            }
+            return false;
+
+
+        }catch(PDOException $e){
+             echo"Erro ao conectar no banco de dados: $e";
+            return false;
+        }
+    }
  }
 ?>

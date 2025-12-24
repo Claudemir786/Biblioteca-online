@@ -10,6 +10,40 @@
     require_once __DIR__.'/../Model/EmprestimoCNome.php';
    
 
+    function usuarios($nome){      
+      $nomeDao = new UsuarioDao();
+      $usuarios = $nomeDao->buscarUsuario($nome);#busca usuario     
+      if($usuarios){
+          $emprestimo = new EmprestimoDao();
+         $usuarioObj = $emprestimo->dadosUser($usuarios);
+        
+         if($usuarioObj){
+            foreach($usuarioObj as $linha){
+                  echo"<tr>                            
+                        <td>{$linha->getNomeUsuario()} {$linha->getSobrenome()}</td>
+                        <td id=pend>{$linha->getPendente()}</td>
+                        <td id=at>{$linha->getAtivo()}</td>                      
+                        <td>
+                           <form action='../../Controller/AdmController.php' method='get'>
+                           <input type='hidden' name='idUsuario' value='{$linha->getIdUsuario()}'>                                                                                                            
+                           <input type='submit' class='btn btn-info'  name='detalhes' value='Detalhes'>
+                           </form>
+                                                   
+                        </td>                                                                           
+                     </tr>
+                       
+                     ";
+
+            }
+            
+         }else{
+            echo"<h4 class='text-center'>Usuário não encontrado</h4>";
+         }
+         }else{      
+            echo"<h4 class='text-center'>Usuário não encontrado</h4>";
+         }
+   }
+    
     function detalhes(){
         echo" <tr>
                   <td>
@@ -40,7 +74,7 @@
      
       $eConfirmados = new EmprestimoDao();
       $ativos = $eConfirmados->emprestimoConfirm();
-
+      
       if($ativos != false){         
          foreach($ativos as $linha){
 
@@ -106,7 +140,7 @@
             $emprestimo = new EmprestimoDao();            
             $result = $emprestimo->devolver($idEmprestimo,$idLivro);
 
-            var_dump($result);
+            
             if($result){
                echo"<script>
                     alert('livro devolvido com sucesso');
@@ -161,6 +195,19 @@
             }
 
          }
+      
     }
+      if($_SERVER["REQUEST_METHOD"] == "GET"){
+
+        
+         }
+         if(isset($_GET['detalhes'])){
+
+           $idU = $_GET['idUsuario'];
+           
+
+         }
+
+   
    
 ?>

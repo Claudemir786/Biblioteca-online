@@ -26,13 +26,13 @@
         </nav>
         <div class="container mt-4 mb-5">
             <div class="row justify-content-center p-4">
-                <form action="../../Controller/AdmController.php" method="get" class="d-flex gap-2 col-6">                   
-                    <input type="text" class="form-control" name="nome" placeholder="digite o nome" required>            
+                <form action="#" method="get" class="d-flex gap-2 col-6">                   
+                    <input type="text" class="form-control" name="nome" placeholder="digite o primeiro nome" required>            
                     <input type="submit" class="btn" style="background-color: #06355e;color:#fff" name="nomeUser" value="Buscar">                    
                 </form>
             </div>
 
-            <!--daqui pra baixo é tudo no php-->
+           
             <div>
                 <table class='table table-hover text-center'>
                     <thead>
@@ -41,23 +41,19 @@
                         <th scope='col'>livros emprestado</th>
                         <th scope='col'>Opção</th>                                            
                     </thead>                        
-                    <tbody>
-                        <tr>                            
-                            <td>Claudemir Junior</td>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>
-                               <form action='#' method='get' >
-                                <input type='submit' class='btn btn-info'  name='detalhes' value='Detalhes'>
-                               </form>
-                                                         
-                            </td>                                                                           
-                        </tr>
-                        <!--essa parte fica na pagina-->
-                       <?php 
-                            if(isset($_GET['detalhes'])){
-                                detalhes();
+                    <tbody>                                           
+                       <?php                             
+                            if($_SERVER["REQUEST_METHOD"] == "GET"){
+        
+                                if(isset($_GET['nomeUser'])){
+                                    $nome = ($_GET['nome']);
+                                    usuarios($nome);
+                                }
                             }
+                                 if(isset($_GET['detalhes'])){
+                                   echo"cheguei aqui";
+            
+                                }
                         ?>     
                     </tbody>
                 </table>
@@ -65,3 +61,5 @@
 
         </div>
 </body>        
+
+  

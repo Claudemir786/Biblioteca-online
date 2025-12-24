@@ -8,8 +8,10 @@
         private $nomeUsuario;
         private $sobrenome;
         private $data;
+        private $emprestimoAtivo;
+        private $emprestimoPendente;
 
-        public function __construct( $id = null,$idLivro = null,$idUsuario = null,$nomeLivro = null,$nomeUsuario = null,$sobrenome = null,$data = null){
+        public function __construct( $id = null,$idLivro = null,$idUsuario = null,$nomeLivro = null,$nomeUsuario = null,$sobrenome = null,$data = null,$emprestimoAtivo =null, $emprestimoPendente= null){
             $this->id = $id;
             $this->idLivro = $idLivro;
             $this->idUsuario = $idUsuario;
@@ -17,6 +19,8 @@
             $this->nomeUsuario = $nomeUsuario;
             $this->sobrenome = $sobrenome;
             $this->data = $data;
+            $this->emprestimoAtivo=$emprestimoAtivo;
+            $this->emprestimoPendente=$emprestimoPendente;
         }
         public function getId() {
         return $this->id;
@@ -45,7 +49,20 @@
         public function getSobrenome(){
             return $this->sobrenome;
         }
+        public function getPendente(){
+            return $this->emprestimoPendente;
+        }
+        public function getAtivo(){
+            return $this->emprestimoAtivo;
+        }
+        
 
+        public function setPendente($pendente){
+            $this->emprestimoPendente = $pendente;
+        }
+        public function setAtivo($ativo){
+            $this->emprestimoAtivo = $ativo;
+        }
         public function setSobrenome($sobrenome){
             $this->sobrenome = $sobrenome;
         }
