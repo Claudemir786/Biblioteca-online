@@ -24,7 +24,7 @@
                         <td id=pend>{$linha->getPendente()}</td>
                         <td id=at>{$linha->getAtivo()}</td>                      
                         <td>
-                           <form action='../../Controller/AdmController.php' method='get'>
+                           <form action='#' method='get'>
                            <input type='hidden' name='idUsuario' value='{$linha->getIdUsuario()}'>                                                                                                            
                            <input type='submit' class='btn btn-info'  name='detalhes' value='Detalhes'>
                            </form>
@@ -44,30 +44,55 @@
          }
    }
     
-    function detalhes(){
-        echo" <tr>
-                  <td>
-                     <div>
-                        <h5>Livros Emprestados</h5>
-                        <ul class='list-unstyled'>
-                              <li class='d-flex justify-content-between align-items-center mb-2'>
-                                 <span>Amor e o Tempo</span>
-                                 <form action='../../Controller/LivroController.php' method='get' class='d-flex gap-2'>
-                                    <input type='submit' class='btn btn-sm p-2' name='devolver' style='background-color: #06355e;color:#fff;' value='Devolver'>
-                                 </form>
-                              </li>
-                        <h5>Livros Pendentes</h5>
-                              <li class='d-flex justify-content-between align-items-center mb-2'>
-                                 <span>Amor e Eu</span>
-                                 <form action='../../Controller/LivroController.php' method='get' class='d-flex gap-2'>
-                                    <input type='submit' class='btn btn-sm p-2' name='confirmar' style='background-color: #06355e;color:#fff;' value='Confirmar'>
+    function detalhes($id){
+      $idU = $id;
+      $emprestimoDao = new EmprestimoDao();
+      $result = $emprestimoDao->detalhesEmprestimo($idU); 
+      
+      if($result){
+          echo" <tr><td><div><h5>Livros Emprestados</h5>";
+        foreach($result as $emprestimoObj){#emprestimos ativos
+            if($emprestimoObj->getAtivo() == 1 && $emprestimoObj->getPendente() == 0){# verifica se o emprestimo está ativo
+                 echo"
+                 <ul class='list-unstyled'>
+                     <li class='d-flex justify-content-between align-items-center mb-2'>
+                        <span>{$emprestimoObj->getNomeLivro()}</span>
+                        <form action='../../Controller/AdmController.php' method='post' class='d-flex gap-2'>
+                              <input type='hidden' value='{$emprestimoObj->getId()}' name='idEmprestimo'>
+                              <input type='hidden' value='{$emprestimoObj->getIdLivro()}' name='idLivro'>
+                           <input type='submit' class='btn' name='devolver' style='background-color: #06355e;color:#fff;' value='Devolver'>
+                        </form>
+                     </li>
+            ";
+            }          
+        }                                    
+        echo"
+         <h5>Livros Pendentes</h5>
+         <li class='d-flex justify-content-between align-items-center mb-2'>
+        "; 
+        foreach($result as $emprestimoObj){# emprestimos pendentes
+          if($emprestimoObj->getAtivo() == 0 && $emprestimoObj->getPendente() == 0){#verifica se o emprestimo está pendente(aguardando a aprovação)
+         echo"
+          <span>{$emprestimoObj->getNomeLivro()}</span>
+                                 <form action='../../Controller/AdmController.php' method='post' class='d-flex gap-2'>
+                                   <input type='hidden' value='{$emprestimoObj->getId()}' name='idEmprestimo'>
+                                   <input type='hidden' value='{$emprestimoObj->getIdLivro()}' name='idLivro'>
+                                    <input type='submit' class='btn  btn-info' name='confirmar' value='Confirmar'>
                                  </form>
                               </li>
                         </ul>
                      </div>
                   </td>
                            
-            </tr>";
+            </tr>
+         ";
+          }
+        }    
+      }else{
+         echo"<h4 class='text-center'>Não há informações deste usuário</h4>";
+      }               
+                      
+                                
     }
   
     function emprestimosConfirmados(){
@@ -127,7 +152,7 @@
                   </tr>";
          }
       }else{
-         echo"Deu errado";
+         echo"<h4 class='text-center'>Sem livros pendentes no momento</h4>";
       }
     }
     
@@ -197,17 +222,7 @@
          }
       
     }
-      if($_SERVER["REQUEST_METHOD"] == "GET"){
-
-        
-         }
-         if(isset($_GET['detalhes'])){
-
-           $idU = $_GET['idUsuario'];
-           
-
-         }
-
+     
    
    
 ?>

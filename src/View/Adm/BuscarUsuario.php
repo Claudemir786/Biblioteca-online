@@ -1,5 +1,6 @@
 <?php 
     require_once '../../Controller/AdmController.php';
+    $mostrarTabela = true; #controla se a tabela é mostrada
 ?>
 
 <!DOCTYPE html>
@@ -30,16 +31,28 @@
                     <input type="text" class="form-control" name="nome" placeholder="digite o primeiro nome" required>            
                     <input type="submit" class="btn" style="background-color: #06355e;color:#fff" name="nomeUser" value="Buscar">                    
                 </form>
-            </div>
+            </div>           
+            <?php 
+                  if($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['detalhes'])){
+                    $mostrarTabela = false;
+                    $idU = $_GET['idUsuario'];
+                    detalhes($idU);
+                    
+                }
+            ?>
 
-           
+            <!--se o botão de detalhes não for clicado mostra a tabela-->
+            <?php if($mostrarTabela) :?>
             <div>
-                <table class='table table-hover text-center'>
+                <table class='table table-hover text-center'>                    
                     <thead>
-                        <th scope='col'>Usuário</th>
-                        <th scope='col'>Livros pendentes</th>
-                        <th scope='col'>livros emprestado</th>
-                        <th scope='col'>Opção</th>                                            
+                        <tr>
+                            <th scope='col' >Usuário</th>
+                            <th scope='col'>Livros pendentes</th>
+                            <th scope='col'>livros emprestado</th>
+                            <th scope='col'>Opção</th>       
+                        </tr>
+                                                                                  
                     </thead>                        
                     <tbody>                                           
                        <?php                             
@@ -48,18 +61,17 @@
                                 if(isset($_GET['nomeUser'])){
                                     $nome = ($_GET['nome']);
                                     usuarios($nome);
-                                }
-                            }
-                                 if(isset($_GET['detalhes'])){
-                                   echo"cheguei aqui";
-            
-                                }
+                                }                              
+                            }                               
+                                   
                         ?>     
                     </tbody>
                 </table>
             </div>
+            <?php endif;?>
 
         </div>
-</body>        
+</body>
+
 
   

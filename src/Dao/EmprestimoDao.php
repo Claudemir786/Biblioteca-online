@@ -187,7 +187,7 @@
                     }
                     $idU = $id;
                      $emprestimoObj = new EmprestimoCNome(
-                    $id=null,$idLivro=null,$idU,$tituloLivro=null,$nome,$sobrenome,$dataEmprestimo=null,$quantPendente,$eA=$quantAtivos);
+                    $id=null,$idLivro=null,$idU,$tituloLivro=null,$nome,$sobrenome,$dataEmprestimo=null,$quantAtivos,$quantPendente);
                      $resultadoBusca [] = $emprestimoObj;    
 
                 }
@@ -198,7 +198,44 @@
                 return false;
 
             }catch(PDOException $e){
-                 return "<p>Erro ao conectar no banco de dados $e</p>";
+                 return "<h4>Erro ao conectar no banco de dados $e</h4>";
+            }
+        }
+
+
+        #função que retorna um array de objeto para ser usado nos detalhes do usuário
+        public function detalhesEmprestimo($idUser){
+          
+            try{
+                $sql = "SELECT * FROM emprestimo WHERE Id_usuario = :idUser";
+                $conn = ConnectionFactory::getConnection()->prepare($sql);
+                $conn->bindValue(":idUser", $idUser);
+                $conn->execute();
+                $result = $conn->fetchAll(PDO::FETCH_ASSOC);
+                $detralhesObj = [];
+                if($result>0){
+                   foreach($result as $linhaEmprestimo){
+                        $emprestimo = new EmprestimoCNome();
+                        $emprestimo->setId($linhaEmprestimo['id']);                      
+                        $emprestimo->setPendente($linhaEmprestimo['devolvido']);
+                        $emprestimo->setAtivo($linhaEmprestimo['ativo']);
+                        $emprestimo->setIdLivro($linhaEmprestimo['id_livro']);
+                       
+                        #buscar o nome do livro
+                        $idLivro = $linhaEmprestimo['id_livro'];
+                        $livroD = new LivroDao();
+                        $livroObj = $livroD->buscaLivroId($idLivro);
+                        $emprestimo->setNomeLivro($livroObj->getTitulo());#seta o nome do livro
+                        $detralhesObj [] = $emprestimo;                  
+                                
+                   }
+                   return $detralhesObj;
+                }
+                return false;
+
+            }catch(PDOException $e){
+                return"<h4>Erro ao conectar no banco de dados $e</h4>";
+
             }
         }
     }
