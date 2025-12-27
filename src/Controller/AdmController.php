@@ -55,7 +55,7 @@
             if($emprestimoObj->getAtivo() == 1 && $emprestimoObj->getPendente() == 0){# verifica se o emprestimo está ativo
                  echo"
                  <ul class='list-unstyled'>
-                     <li class='d-flex justify-content-between align-items-center mb-2'>
+                     <li class='d-flex justify-content-between align-items-center mb-2 border-bottom'>
                         <span>{$emprestimoObj->getNomeLivro()}</span>
                         <form action='../../Controller/AdmController.php' method='post' class='d-flex gap-2'>
                               <input type='hidden' value='{$emprestimoObj->getId()}' name='idEmprestimo'>
@@ -68,7 +68,7 @@
         }                                    
         echo"
          <h5>Livros Pendentes</h5>
-         <li class='d-flex justify-content-between align-items-center mb-2'>
+         <li class='d-flex justify-content-between align-items-center mb-2 border-bottom''>
         "; 
         foreach($result as $emprestimoObj){# emprestimos pendentes
           if($emprestimoObj->getAtivo() == 0 && $emprestimoObj->getPendente() == 0){#verifica se o emprestimo está pendente(aguardando a aprovação)
@@ -155,6 +155,49 @@
          echo"<h4 class='text-center'>Sem livros pendentes no momento</h4>";
       }
     }
+
+     function buscarLivroEmprestimo($tituloLivro){
+         $livroDao = new LivroDao();
+         $livroObj = $livroDao->buscarLivro($tituloLivro);
+         
+         if($livroObj){
+            $emprestimoDao = new EmprestimoDao();
+            $result = $emprestimoDao->quantEmprestimo($livroObj->getId());             
+            if($result >= 0){
+             echo"
+                <table class='table' id='tabela'>
+                <thead class='text-center'>
+                   <th scope='col'>Titulo</th> 
+                   <th scope='col'>Estoque</th> 
+                   <th scope='col'>Emprestimos Confirmados</th> 
+                   <th scope='col'>Opção</th> 
+                </thead>
+                <tbody>
+                    
+                    <tr class='text-center'>
+                        <td>{$livroObj->getTitulo()}</td>
+                        <td>{$livroObj->getQuantidade()}</td>
+                        <td>{$result}</td>
+                        <td>
+                            <form action='./BuscarLivro.php' method='post'>
+                                <input type='hidden' name='idLivro' value={$livroObj->getId()}> 
+                                <a href='#' onclick = 'campoAdicionar()'  id='adc' class='btn btn-info' name='adicionar'>Adicionar Estoque</a>
+                                <input type='submit' class='btn' name='excluir'  value='Excluir Livro' style='background-color: #4e0202ff; color:#fff;'>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+             ";
+
+            }else{
+               echo"<h4 class='text-center'>Erro ao encontrar livro</h4>";
+            }
+
+         }else{
+            echo"<h4 class='text-center'>Erro ao encontrar livro</h4>";
+         }
+     }
     
     
     if($_SERVER["REQUEST_METHOD"] == 'POST'){
@@ -222,7 +265,7 @@
          }
       
     }
-     
-   
+
+    
    
 ?>

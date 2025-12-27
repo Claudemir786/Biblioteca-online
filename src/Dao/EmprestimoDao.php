@@ -121,7 +121,7 @@
                 }
 
             }catch(PDOException $e){
-                return "<p>Erro ao conectar no banco de dados $e</p>";
+                return "<p class='text-center'>Erro ao conectar no banco de dados $e</p>";
             }
         }
 
@@ -139,7 +139,7 @@
 
 
             }catch(PDOException $e){
-                return "<p>Erro ao conectar no banco de dados $e</p>";
+                return "<p class='text-center'>Erro ao conectar no banco de dados $e</p>";
             }
         }
 
@@ -165,7 +165,7 @@
                             $quantPendente = 0;
                         }
                     }catch(PDOException $e){
-                         return "<p>Erro ao conectar no banco de dados $e</p>";
+                         return "<p class='text-center'>Erro ao conectar no banco de dados $e</p>";
                     }
 
 
@@ -183,7 +183,7 @@
                         }
                         
                     }catch(PDOException $e){
-                        return "<p>Erro ao conectar no banco de dados $e</p>";
+                        return "<p class='text-center'>Erro ao conectar no banco de dados $e</p>";
                     }
                     $idU = $id;
                      $emprestimoObj = new EmprestimoCNome(
@@ -198,7 +198,7 @@
                 return false;
 
             }catch(PDOException $e){
-                 return "<h4>Erro ao conectar no banco de dados $e</h4>";
+                 return "<h4 class='text-center'>Erro ao conectar no banco de dados $e</h4>";
             }
         }
 
@@ -234,10 +234,25 @@
                 return false;
 
             }catch(PDOException $e){
-                return"<h4>Erro ao conectar no banco de dados $e</h4>";
+                return"<h4 class='text-center'>Erro ao conectar no banco de dados $e</h4>";
 
             }
         }
+
+        public function quantEmprestimo($id){
+            try{
+                $sql ="SELECT * FROM emprestimo WHERE id_livro = :id AND ativo=1 AND devolvido=0";
+                $conn = ConnectionFactory::getConnection()->prepare($sql);
+                $conn->bindValue(":id", $id);
+                $conn->execute();
+                $result = $conn->fetchAll(PDO::FETCH_ASSOC);
+                $quantidade = count($result);
+                return $quantidade;                        
+
+            }catch(PDOException $e){
+                return"<h4 class='text-center'>Erro ao conectar no banco de dados $e</h4>";
+            }
+        } 
     }
 
 

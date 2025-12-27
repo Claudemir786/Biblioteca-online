@@ -10,7 +10,7 @@ class Livro{
     private $editora;
     private $quantidade;
     private $isbn;
-    private $anoPublicação;
+    private $anoPublicacao;
     private $idUsuario;
 
 
@@ -72,11 +72,11 @@ class Livro{
         return $this->isbn;
     }
 
-    public function setAnoPublicação($anoPublicação){
-        $this->anoPublicação = $anoPublicação;
+    public function setAnoPublicacao($anoPublicacao){
+        $this->anoPublicacao = $anoPublicacao;
     }
-    public function getAnoPublicação(){
-        return $this->anoPublicação;
+    public function getAnoPublicacao(){
+        return $this->anoPublicacao;
     }
 
     public function setIdUsuario($idUsuario){

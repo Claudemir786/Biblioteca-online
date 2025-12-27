@@ -28,7 +28,7 @@
         <div class="container-fluid d-flex flex-wrap">        
                 <h1 style="font-family:Arial, Helvetica, sans-serif; color:#06355e;" class="me-5"><i class="bi bi-book-half"></i> Raízes do saber</h1>            
 
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-4 ">
                 <form action="../Controller/LivroController.php" method="get">
                 <div class="row">
                     <div class="col-12 col-md-10 col-lg-8 ">

@@ -21,50 +21,54 @@
             </div>
         </nav>
         <div class="container mt-4 mb-5">
-             <div class="row "> 
-                   
-            <div class="col">
-                <div class="text-center text-light rounded-3 " style="background-color:#6b757eb2">
-                    <h2 class="mb-3 p-2" style="font-family:Arial, Helvetica, sans-serif; font-size: 40px;">Cadastrar <i class="bi bi-book-half"></i></h2>
-                    <form action="../Controller/UsuarioController.php" method="post">
-                        <div class="mb-3 mx-5">
-                            <label class="form-label" for="titulo">Titulo</label>
-                            <input type="text" name="titulo"class="form-control" required>
-                        </div>
-                        <div class="mb-3 mx-5">
-                            <label class="form-label" for="autor">Autor</label>
-                            <input type="text" class="form-control"name="autor" required>
-                        </div>   
-                         <div class="mb-3 mx-5">
-                            <label class="form-label" for="pagina">Paginas</label>
-                            <input type="text" name="pagina" class="form-control" required >
-                        </div>
-                        <div class="mb-3 mx-5">
-                            <label class="form-label" for="Genero">Genêro</label>
-                            <input type="text" class="form-control" name="genero" required>
-                        </div>       
-                       <div class="mb-3 mx-5">
-                            <label class="form-label" for="editora">Editora</label>
-                            <input type="text" class="form-control" name="editora" required>
-                        </div>                                   
-                       <div class="mb-3 mx-5">
-                            <label class="form-label" for="isbn">Isbn</label>
-                            <input type="text" class="form-control" name="isbn" required>
-                        </div>                                   
-                       <div class="mb-3 mx-5">
-                            <label class="form-label" for="quantidade">Quantidade</label>
-                            <input type="number" class="form-control" name="quantidade" required>
-                        </div>                                   
-                       <div class="mb-3 mx-5">
-                            <label class="form-label" for="publicaao">Ano Publicação</label>
-                            <input type="date" class="form-control" name="publicacao" required>
-                        </div>                                   
-                        <button type="submit" class="btn mb-3" name="adicionar" style=" background-color:#20d3d8" >Adicionar</button><br>                   
-                    </form>
-                </div>
+             <div class="row g-3 "> 
+                <div class="col-md-4"></div>       
+                <div class="col-md-4">
+                    <div class="text-center text-light rounded-3 p-3" style="background-color:#6b757eb2">
+                        <h2 class="mb-3 p-2" style="font-family:Arial, Helvetica, sans-serif; font-size: 40px;">Cadastrar <i class="bi bi-book-half"></i></h2>
+                        <form action="../../Controller/LivroController.php" method="post" class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label" for="titulo">Titulo</label>
+                                <input type="text" name="titulo"class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="autor">Autor</label>
+                                <input type="text" class="form-control "name="autor" required>
+                            </div>   
+                            <div class="col-md-6">
+                                <label class="form-label" for="pagina">Paginas</label>
+                                <input type="number" name="pagina" class="form-control" required >
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="Genero">Genêro</label>
+                                <input type="text" class="form-control" name="genero" required>
+                            </div>       
+                            <div class="col-md-6">
+                                <label class="form-label" for="editora">Editora</label>
+                                <input type="text" class="form-control" name="editora" required>
+                            </div>                                   
+                            <div class="col-md-6">
+                                <label class="form-label" for="isbn">Isbn</label>
+                                <input type="text" class="form-control" name="isbn" required>
+                            </div>                                   
+                            <div class="col-md-6">
+                                <label class="form-label" for="quantidade">Quantidade</label>
+                                <input type="number" class="form-control" name="quantidade" required>
+                            </div>                                   
+                            <div class="col-md-12">
+                                <label class="form-label" for="publicaao">Ano Publicação</label>
+                                <input type="number" class="form-control" name="publicacao" required>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn mb-3" name="adicionarLivro" style=" background-color:#20d3d8" >Adicionar</button><br>
+                            </div>
+                                               
+                        </form>
+                    </div>
 
-            </div>            
+                </div>            
 
         </div>
-        </div>
+    </div>
+    </div>
 </body>        

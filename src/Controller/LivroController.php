@@ -41,7 +41,7 @@
 
             foreach($livroLista as $livroE){
                 echo "
-                    <option value'{$livroE->getTitulo()}'>{$livroE->getTitulo()}</option>
+                    <option value'{$livroE->getId()}'>{$livroE->getTitulo()}</option>
                 ";
             }
         }else{
@@ -217,6 +217,44 @@
 
     }
 
+    function excluir($id){
+        $livroDao = new LivroDao();
+        $result = $livroDao->excluir($id);
+        if($result){
+            echo"<script>
+                    alert('Livro excluido com sucesso');
+                    window.location.href = '../View/Adm/TelaInicialAdm.php';
+                </script>";
+        }else{
+            echo"<script>
+                    alert('Erro ao excluir livro');
+                    window.location.href = '../View/Adm/TelaInicialAdm.php';
+                </script>;";
+        }
+    }
+
+    function adicionar($quantidade, $nomeLivro){
+        if($quantidade <= 0){
+             echo"<script>
+                    alert('Erro, numero não pode ser negativo');
+                    window.location.href = '../Adm/TelaInicialAdm.php';
+                </script>;";
+        }
+        $livroDao = new LivroDao();
+        $result = $livroDao->adicionar($nomeLivro,$quantidade);
+        if($result){
+            echo"<script>
+                    alert('Livro adicionado com sucesso');
+                    window.location.href = '../Adm/TelaInicialAdm.php';
+                </script>";
+        }else{
+            echo"<script>
+                    alert('Erro ao adicionar livro');
+                    window.location.href = '../Adm/TelaInicialAdm.php';
+                </script>;";
+        }
+    }
+
 #----------------REQUISIÇÕES GET --------------------------------------------------------------------------------------------
 
   if($_SERVER["REQUEST_METHOD"] == "GET"){
@@ -291,8 +329,39 @@
             }
 
         }
-       
+            
+
     }
+
+    
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+    
+        if(isset($_POST['adicionarLivro'])){
+             $livro = new Livro();
+             $livro->setTitulo($_POST['titulo']);
+             $livro->setAutor($_POST['autor']);
+             $livro->setPagina($_POST['pagina']);
+             $livro->setGenero($_POST['genero']);
+             $livro->setEditora($_POST['editora']);
+             $livro->setIsbn($_POST['isbn']);
+             $livro->setQuantidade($_POST['quantidade']);
+             $livro->setAnoPublicacao($_POST['publicacao']);
+             $livroDao= new LivroDao();
+             $result = $livroDao->cadastrar($livro);
+             
+             if($result){
+                echo"<script>alert('Livro adicionado com sucesso');
+                    window.location.href = '../View/Adm/TelaInicialAdm.php';
+                </script>";
+             }else{
+                echo"<script>alert('Erro ao adicionar novo livro');
+                    window.location.href = '../View/Adm/TelaInicialAdm.php';
+                </script>";
+             }
+        }
+    }
+
+    
     
    
    

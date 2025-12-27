@@ -97,7 +97,7 @@
                 $encontroLivro->setEditora($livroRe['editora']);
                 $encontroLivro->setIsbn($livroRe['isbn']);
                 $encontroLivro->setQuantidade($livroRe['quantidade']);
-                $encontroLivro->setAnoPublicação($livroRe['ano_publicacao']);
+                $encontroLivro->setAnoPublicacao($livroRe['ano_publicacao']);
                 $livrosEncontrados[] = $encontroLivro;
               }
             }catch(PDOException $e){
@@ -219,11 +219,6 @@
         $stmtEmprestimo->bindValue(":livro", $idLivro);    
         $stmtEmprestimo->execute();
 
-        /* Diminui a quantidade do livro
-        $sqlUpdate = "UPDATE livro SET quantidade = quantidade - 1 WHERE id = :id";
-        $stmtUpdate = $conn->prepare($sqlUpdate);
-        $stmtUpdate->bindValue(":id", $idLivro);
-        $stmtUpdate->execute();*/
 
         
         return 1;
@@ -377,10 +372,55 @@
        return false;
     }
   }
-  
+
+  public function excluir($id){
+    try{
+      
+
+    }catch(PDOException $e){
+      return "<h4 class= 'text-center'>Erro ao conectar no banco de dados</h4>";
+    }
+  }
+  public function adicionar($nomeLivro,$quantidade){
+     try{
+      $sql = "UPDATE livro SET quantidade = :quant + quantidade WHERE titulo = :titulo";
+      $conn = ConnectionFactory::getConnection()->prepare($sql);
+      $conn->bindValue(":quant", $quantidade);
+      $conn->bindValue(":titulo", $nomeLivro);
+      $conn->execute();
+      if($conn->rowCount() >0){
+        return true;
+      }
+      return false;
+    }catch(PDOException $e){
+      return "<h4 class= 'text-center'>Erro ao conectar no banco de dados $e</h4>";
+    }
   }
 
+  public function cadastrar($livroObj){
+    try{
+      $sql = "INSERT INTO livro(titulo,autor,pagina,genero,editora,isbn,quantidade,ano_publicacao)
+      VALUES(:titulo, :autor, :pagina, :genero, :editora, :isbn, :quantidade, :ano_publicacao)";
+      $conn = ConnectionFactory::getConnection()->prepare($sql);
+      $conn->bindValue(":titulo", $livroObj->getTitulo());
+      $conn->bindValue(":autor", $livroObj->getAutor());
+      $conn->bindValue(":pagina", $livroObj->getPagina());
+      $conn->bindValue(":genero", $livroObj->getGenero());
+      $conn->bindValue(":editora", $livroObj->getEditora());
+      $conn->bindValue(":isbn", $livroObj->getIsbn());
+      $conn->bindValue(":quantidade", $livroObj->getQuantidade());
+      $conn->bindValue(":ano_publicacao", $livroObj->getAnoPublicacao());
+      $conn->execute();
+      if($conn->rowCount()>0){
+        return true;
+      }
+      return false;
+    }catch(PDOException $e){
+      return"<h4 class= 'text-center'>Erro ao conectar no banco de dados $e</h4>";
+    }
+  }
   
+  }
 
   
 

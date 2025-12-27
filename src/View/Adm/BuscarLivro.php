@@ -1,5 +1,8 @@
 <?php 
     require_once '../../Controller/LivroController.php';
+    require_once '../../Controller/AdmController.php';
+    
+    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -25,7 +28,7 @@
         </nav>
         <div class="container mt-4 mb-5">
             <div class=" d-flex align-itens-center justify-content-center mt-5">
-                <form action="../../Controller/LivroController.php" method="get">
+                <form action="" method="get">
                 <div class="row">
                     <div class="col-12 col-md-10 col-lg-8 ">                    
                         <select name="buscar" class="form-select mx-5 ">
@@ -35,37 +38,53 @@
                         </select>
                     </div>
                     <div class="col-12 col-md-6 col-lg-4 text-center" >
-                        <input type="submit" class="btn ms-5"style="background-color: #06355e; color: #fff;" name="procurar" value="Buscar">    
+                        <input type="submit" class="btn ms-5"style="background-color: #06355e; color: #fff;" name="procurarAdm" value="Buscar">    
                     </div>
                 </div>       
             
             </form>   
             </div> 
             <!--Na hora que a requisição voltar mostrar tablea-->
-            <table class="table" id="tabela">
-                <thead class="text-center">
-                   <th scope='col'>Titulo</th> 
-                   <th scope='col'>Estoque</th> 
-                   <th scope='col'>Emprestimos Confirmados</th> 
-                   <th scope='col'>Opção</th> 
-                </thead>
-                <tbody>
-                    <!--parte que vai ser usada no php-->
-                    <tr class="text-center">
-                        <td>Naruto</td>
-                        <td>55</td>
-                        <td>2</td>
-                        <td>
-                            <form action='../../Controller/LivroController.php' method="post">
-                                <input type="submit" class="btn" name="excluir"  value="Excluir" style="background-color: #4e0202ff; color:#fff;">
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+           <?php 
+                if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['procurarAdm'] )){                    
+                    $tituloLivro = $_GET['buscar'];                
+                    buscarLivroEmprestimo($tituloLivro);   
+                 }              
+
+                if($_SERVER["REQUEST_METHOD"] == "POST"){
+                
+                    if(isset($_POST['excluir'])){
+                        
+                        $id = $_POST['idLivro'];
+                        $idLivro = $id;
+                        excluir($id);
+                     }
+                     if (isset($_POST['aumentar'])) {
+                        $nomeLivro = $_GET['buscar'];#pega o nome do livro pela url
+                        $quant = $_POST['quant'];
+                        adicionar($quant,$nomeLivro);                                                                                         
+                    }                   
+                }               
+            ?>            
+                <div id="quantidade" style="display:none" class="text-center">                     
+                    <form method="post" class="mx-auto" style="max-width: 250px;" >
+                        <div id="input">
+                            <label class="form-label">Digite a quantidade</label>                           
+                            <input type="number" name="quant" class="form-control mb-3" required>
+                        </div>                      
+                        <input type="submit" name="aumentar" value="Adicionar" class="btn btn-info ">
+                    </form>
+                </div>
+          
         </div>
+    </div>    
 </body>      
 
-<script>
 
+<script>
+    function campoAdicionar(id){        
+        document.getElementById('quantidade').style.display='block';
+      
+    }
+   
 </script>

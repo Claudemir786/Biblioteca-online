@@ -27,7 +27,7 @@
        <div class="row g-3">
 
     <div class="col-md-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 border shadow-lg">
             <div class="card-body">
                 <h5 class="card-title">Gerenciar empréstimos</h5>
                 <p class="card-text">
@@ -40,7 +40,7 @@
     </div>
 
     <div class="col-md-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 border shadow-lg">
             <div class="card-body">
                 <h5 class="card-title">Buscar usuário ou livro</h5>
                 <p class="card-text">
@@ -53,7 +53,7 @@
     </div>
 
     <div class="col-md-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 border shadow-lg">
             <div class="card-body">
                 <h5 class="card-title">Adicionar Livro</h5>
                 <p class="card-text">
