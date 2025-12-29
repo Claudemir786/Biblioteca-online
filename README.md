@@ -1,3 +1,64 @@
+# 📚 Projeto Biblioteca - Raízes do Saber
+
+Este projeto é um **sistema de biblioteca** desenvolvido com foco em **empréstimo de livros**, controle de usuários e administração. Ele foi criado como parte dos estudos em **Análise e Desenvolvimento de Sistemas**, utilizando conceitos de **CRUD**, **MVC**, banco de dados relacional e desenvolvimento web.
+
+---
+
+##  Objetivo do Projeto
+
+O objetivo do sistema é permitir:
+
+* Gerenciar livros disponíveis na biblioteca
+* Controlar empréstimos e devoluções
+* Gerenciar usuários
+* Facilitar o trabalho do administrador
+
+Além disso, o projeto serve como prática de:
+
+* Programação backend com PHP
+* Organização de código com padrão MVC
+* Integração com banco de dados MySQL
+* Uso de Bootstrap para interface
+
+---
+
+##  Tecnologias Utilizadas
+
+* **PHP** (Backend)
+* **MySQL** (Banco de Dados)
+* **HTML5**
+* **CSS3**
+* **Bootstrap**
+* **JavaScript** (funcionalidades básicas)
+* **PDO** (acesso ao banco de dados)
+
+
+---
+
+
+
+##  Banco de Dados
+
+O sistema utiliza um banco de dados relacional com tabelas como:
+
+* **usuario**
+* **livro**
+* **emprestimo**
+
+Exemplo de tabela de empréstimo:
+
+```sql
+CREATE TABLE emprestimo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_livro INT NOT NULL,
+    data_emprestimo DATETIME DEFAULT CURRENT_TIMESTAMP,
+    devolvido TINYINT(1) DEFAULT 0,
+    ativo TINYINT(1) NOT NULL DEFAULT 0
+);
+```
+
+---
 ##  Funcionalidades
 
 ### Usuário
