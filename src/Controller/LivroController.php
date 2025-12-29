@@ -87,9 +87,39 @@ function livroUsuario($id)
 
     $livroUsuario = new Livro();
     $livroUsuarioDao = new LivroDao();
-    #------------------econtra primeiro os emprestimo validos----------------------
-    $livroUsuario = $livroUsuarioDao->livrosUsuario($id, $historico = false, $status = true);
+     #------------------econtra depois os emprestimos pendentes----------------------
+        $livroUsuario1 = $livroUsuarioDao->livrosUsuario($id,false,false);
+        
+        if ($livroUsuario1 != false) {
 
+            foreach ($livroUsuario1 as $livro) {
+                echo "
+                <div class='card text-center mb-4 ms-5 border-shadow' style='width: 18rem;'>
+                    
+                    <div class='card-body'>
+                        <h5 class='card-title'>{$livro->getTitulo()}</h5>
+                        
+                    </div>
+                    <ul class='list-group list-group-flush'>
+                        <li class='list-group-item'>Autor: {$livro->getAutor()}</li>
+                        <li class='list-group-item'>Gênero: {$livro->getGenero()}</li>
+                        <li class='list-group-item'>{$livro->getEditora()}</li>
+                        <li class='list-group-item'  style='background-color: #4e0202ff; color: #fff;'>Empréstimo pendente</li>
+                        
+                    </ul>
+                    <form action='../Controller/LivroController.php' method='get'> 
+                        <input type='hidden' value='{$livro->getId()}' name='idLivro' />
+                        
+                    </form>                            
+                        
+     
+                    </div>
+                ";
+            }
+        } 
+    #------------------econtra os emprestimo validos----------------------
+    $livroUsuario = $livroUsuarioDao->livrosUsuario($id,false,true);
+    
     if ($livroUsuario != false) {
 
         foreach ($livroUsuario as $livro) {
@@ -118,39 +148,7 @@ function livroUsuario($id)
                 ";
         }
 
-        #------------------econtra depois os emprestimos pendentes----------------------
-        $livroUsuario1 = $livroUsuarioDao->livrosUsuario($id, $historico = false, $status = false);
-
-        if ($livroUsuario1 != false) {
-
-            foreach ($livroUsuario1 as $livro) {
-                echo "
-                <div class='card text-center mb-4 ms-5 border-shadow' style='width: 18rem;'>
-                    
-                    <div class='card-body'>
-                        <h5 class='card-title'>{$livro->getTitulo()}</h5>
-                        
-                    </div>
-                    <ul class='list-group list-group-flush'>
-                        <li class='list-group-item'>Autor: {$livro->getAutor()}</li>
-                        <li class='list-group-item'>Gênero: {$livro->getGenero()}</li>
-                        <li class='list-group-item'>{$livro->getEditora()}</li>
-                        <li class='list-group-item'  style='background-color: #4e0202ff; color: #fff;'>Empréstimo pendente</li>
-                        
-                    </ul>
-                    <form action='../Controller/LivroController.php' method='get'> 
-                        <input type='hidden' value='{$livro->getId()}' name='idLivro' />
-                        
-                    </form>                            
-                        
-     
-                    </div>
-                ";
-            }
-        } else {
-
-            livroNaoencontrado();
-        }
+       
     }
 }
 #função que está vinculada ao campo livre de "buscar" na tela inicial, serve prar mostrar o livro com o nome procurado
@@ -212,7 +210,7 @@ function lerHistorico()
            ";
         }
     } else {
-        livroNaoencontrado();
+       echo"não foram encontrados livros";
     }
 }
 

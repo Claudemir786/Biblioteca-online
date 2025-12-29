@@ -38,15 +38,15 @@ class LivroDao
   public function livrosUsuario($id, $historico, $statusEmprestimo)
   {
     try {
-
-      if ($historico && !$statusEmprestimo) {
+      
+      if ($historico && !$statusEmprestimo) {      
         #historico de devolvidos
         $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id AND devolvido = 1";
       } else {
-        if ($statusEmprestimo) {
+        if ($statusEmprestimo) {         
           #livros emprestimo confimados que não foram devolvidos
           $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id AND devolvido = 0 AND ativo = 1";
-        } else {
+        } else{          
           #livros pendentes 
           $sql = "SELECT * FROM emprestimo WHERE id_usuario = :id AND devolvido = 0 AND ativo = 0";
         }
@@ -59,8 +59,7 @@ class LivroDao
 
       if ($emprestimoEncontrado) { #encontra o emprestimo       
         $buscarIds = new LivroDao();
-        $livros = $buscarIds->lerIdsLivros($emprestimoEncontrado);
-
+        $livros = $buscarIds->lerIdsLivros($emprestimoEncontrado);        
         return $livros;
       }
       return false;
